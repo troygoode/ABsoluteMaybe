@@ -2,6 +2,6 @@
 {
 	public interface ITestsRepository
 	{
-		ParticipationRecord GetOrCreateParticipationRecord(string testName);
+		void Convert(string testName, string userId);
 	}
 }

@@ -18,14 +18,18 @@ namespace ABsoluteMaybe
 
 		public T Test<T>(string testName, IEnumerable<T> alternatives)
 		{
-			var userId = _userIdentificationStrategy.Identity;
+			//1 - Record test if it doesn't exist yet.
+			//2 - Create participation record for user if he doesn't have one yet.
+			//3 - return option assigned to user
+
+			//var userId = _userIdentificationStrategy.Identity;
 			throw new NotImplementedException();
 		}
 
 		public void Convert(string testName)
 		{
-			var participationRecord = _testsRepository.GetOrCreateParticipationRecord(testName);
-			participationRecord.HasConverted = true;
+			var userId = _userIdentificationStrategy.Identity;
+			_testsRepository.Convert(testName, userId);
 		}
 
 		#endregion
