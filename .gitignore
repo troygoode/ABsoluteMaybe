@@ -1,0 +1,7 @@
+[Bb]in
+[Oo]bj
+*.suo
+*.user
+_ReSharper*
+.DS_Store
+*.sdf
