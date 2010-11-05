@@ -46,6 +46,7 @@
     <Compile Include="IABsoluteMaybe.cs" />
     <Compile Include="IUserIdentificationStrategy.cs" />
     <Compile Include="ITestsRepository.cs" />
+    <Compile Include="ParticipationRecord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
