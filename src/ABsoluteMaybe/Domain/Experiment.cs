@@ -6,14 +6,17 @@ namespace ABsoluteMaybe.Domain
 {
 	public class Experiment
 	{
+		private readonly IEnumerable<string> _allPossibleOptionValues;
 		private IEnumerable<Option> _options;
 
 		public Experiment(string name,
 		                  string conversionKeyword,
 		                  DateTime dateCreated,
 		                  DateTime? dateEnded,
-		                  IEnumerable<ParticipationRecord> participants)
+		                  IEnumerable<ParticipationRecord> participants,
+		                  IEnumerable<string> allPossibleOptionValues)
 		{
+			_allPossibleOptionValues = allPossibleOptionValues;
 			Name = name;
 			ConversionKeyword = conversionKeyword;
 			DateCreated = dateCreated;
@@ -31,11 +34,19 @@ namespace ABsoluteMaybe.Domain
 		{
 			get
 			{
-				return _options ?? (_options = Participants
-				                               	.GroupBy(p => p.AssignedOption)
-				                               	.Select(g => new Option(g.Key,
-				                               	                        g.Count(),
-				                               	                        g.Count(p => p.HasConverted))));
+				if (_options != null)
+					return _options;
+
+				var options = Participants
+					.GroupBy(p => p.AssignedOption)
+					.Select(g => new Option(g.Key,
+					                        g.Count(),
+					                        g.Count(p => p.HasConverted)))
+					.ToList();
+				var unincludedOptionValues = _allPossibleOptionValues.Where(pov => !options.Select(o => o.Name).Contains(pov));
+				options.AddRange(unincludedOptionValues.Select(uov => new Option(uov, 0, 0)));
+
+				return _options = options;
 			}
 		}
 

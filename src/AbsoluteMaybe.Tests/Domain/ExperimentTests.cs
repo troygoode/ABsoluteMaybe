@@ -10,6 +10,24 @@ namespace AbsoluteMaybe.Tests.Domain
 	public class ExperimentTests
 	{
 		[Test]
+		public void OptionsIncludesOptionValuesThatHaventBeenUsedByAnyParticipants()
+		{
+			//arrange
+			var participants = new[]
+			                   	{
+			                   		new ParticipationRecord("user1", "OPTION_1", false, null),
+									new ParticipationRecord("user2", "OPTION_1", false, null),
+			                   	};
+			var exp = new Experiment(null, null, DateTime.Now, null, participants, new[]{"OPTION_1", "OPTION_2"});
+
+			//act
+			var options = exp.Options;
+
+			//assert
+			options.Count().ShouldEqual(2);
+		}
+
+		[Test]
 		public void OptionsAreGroupedProperly()
 		{
 			//arrange
@@ -20,7 +38,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user1", "OPTION_2", false, null),
 									new ParticipationRecord("user2", "OPTION_2", false, null),
 			                   	};
-			var exp = new Experiment(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants, new[] { "OPTION_1", "OPTION_2" });
 
 			//act
 			var options = exp.Options;
@@ -41,7 +59,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user2", "OPTION_2", false, null),
 									new ParticipationRecord("user3", "OPTION_2", false, null),
 			                   	};
-			var exp = new Experiment(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants, new[] { "OPTION_1", "OPTION_2" });
 
 			//act
 			var options = exp.Options;
@@ -63,7 +81,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user2", "OPTION_2", true, DateTime.Now),
 									new ParticipationRecord("user3", "OPTION_2", false, null),
 			                   	};
-			var exp = new Experiment(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants, new[] { "OPTION_1", "OPTION_2" });
 
 			//act
 			var options = exp.Options;
@@ -84,7 +102,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user3", "OPTION_1", false, null),
 									new ParticipationRecord("user4", "OPTION_1", true, DateTime.Now)
 			                   	};
-			var exp = new Experiment(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants, new[] { "OPTION_1", "OPTION_2" });
 
 			//act
 			var options = exp.Options;

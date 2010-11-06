@@ -51,7 +51,10 @@ namespace ABsoluteMaybe.Persistence
 				               		  	             		? (DateTime?) null
 				               		  	             		: DateTime.Parse(
 				               		  	             			p.Attribute("DateConverted").Value)
-				               		  	             	))
+				               		  	             	)),
+								exp.Element("PossibleOptionValues")
+									.Elements("Option")
+									.Select(pov => pov.Value)
 				               	));
 		}
 
