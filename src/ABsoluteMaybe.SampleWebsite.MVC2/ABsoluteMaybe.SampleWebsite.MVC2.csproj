@@ -68,6 +68,7 @@
     <Compile Include="Areas\ABsoluteMaybeDashboard\ABsoluteMaybeConfiguration.cs" />
     <Compile Include="Areas\ABsoluteMaybeDashboard\ABsoluteMaybeDashboardAreaRegistration.cs" />
     <Compile Include="Areas\ABsoluteMaybeDashboard\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\ABsoluteMaybeDashboard\Models\ExperimentViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -116,7 +117,6 @@
     <Content Include="Areas\ABsoluteMaybeDashboard\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\ABsoluteMaybeDashboard\Models\" />
     <Folder Include="Areas\ABsoluteMaybeDashboard\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,10 @@ namespace ABsoluteMaybe.Statistics
 
 		public double Execute()
 		{
-			if (_options.Count() != 2)
+			if (_options.Count() < 2)
+				throw new TooFewOptionsException(
+					"Can't currently automatically calculate statistics for A/B tests with less than two options.");
+			if (_options.Count() > 2)
 				throw new TooManyOptionsException(
 					"Can't currently automatically calculate statistics for A/B tests with more than two options.");
 
@@ -32,6 +35,14 @@ namespace ABsoluteMaybe.Statistics
 			var frac2 = option2.ConversionRate*(1 - option2.ConversionRate)/option2.Participants;
 
 			return numerator/Math.Pow((frac1 + frac2), 0.5);
+		}
+
+		public class TooFewOptionsException : ABsoluteMaybeException
+		{
+			public TooFewOptionsException(string message)
+				: base(message)
+			{
+			}
 		}
 
 		#region Nested type: NotEnoughParticipantsException

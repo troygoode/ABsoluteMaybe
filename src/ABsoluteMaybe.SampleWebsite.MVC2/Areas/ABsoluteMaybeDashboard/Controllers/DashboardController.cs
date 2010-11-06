@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using ABsoluteMaybe.Persistence;
+using ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Models;
+using ABsoluteMaybe.Statistics;
 
 namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controllers
 {
@@ -21,7 +24,13 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 		// GET: /ABsoluteMaybeDashboard/Dashboard/
 		public ViewResult Index()
 		{
-			var experiments = _experimentRepository.FindAllExperiments();
+			var experiments = _experimentRepository
+				.FindAllExperiments()
+				.Select(exp => new ExperimentViewModel
+				               	{
+				               		Experiment = exp,
+									Results = new ABingoStyleFormatter(new ABsoluteMaybeStatistics(exp)).ToString()
+				               	});
 			return View(experiments);
 		}
 	}
