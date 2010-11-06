@@ -25,7 +25,7 @@
 					<tr>
 						<td><%: option.Name %></td>
 						<td><%: option.Participants %></td>
-						<td><%: option.Conversions %> (<%: (option.Conversions / option.Participants).ToString("#0.##%") %>)</td>
+						<td><%: option.Conversions %> <%: option.Participants == 0 ? "" : (option.Conversions / option.Participants).ToString("(#0.##%)")%></td>
 					</tr>
 				<% } %>
 				</tbody>

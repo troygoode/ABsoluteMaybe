@@ -1,3 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Experiments>
+  <Experiment Name="Homepage Message Casing" Started="2010-11-06T21:19:42.0458985Z" ConversionKeyword="Purchased Bumper Sticker">
+    <PossibleOptionValues>
+      <Option><![CDATA[Proper Case]]></Option>
+      <Option><![CDATA[ALL CAPS, YO]]></Option>
+    </PossibleOptionValues>
+    <Participants>
+      <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T21:19:46.7910157Z"><![CDATA[ALL CAPS, YO]]></Participant>
+    </Participants>
+  </Experiment>
+  <Experiment Name="Begging Totally Works" Started="2010-11-06T21:19:42.4326172Z">
+    <PossibleOptionValues>
+      <Option><![CDATA[False]]></Option>
+      <Option><![CDATA[True]]></Option>
+    </PossibleOptionValues>
+    <Participants>
+      <Participant Id="127.0.0.1"><![CDATA[True]]></Participant>
+    </Participants>
+  </Experiment>
+  <Experiment Name="Free Shipping" Started="2010-11-06T21:19:46.053711Z" ConversionKeyword="Purchased Bumper Sticker">
+    <PossibleOptionValues>
+      <Option><![CDATA[0]]></Option>
+      <Option><![CDATA[9.99]]></Option>
+    </PossibleOptionValues>
+    <Participants>
+      <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T21:19:46.7910157Z"><![CDATA[9.99]]></Participant>
+    </Participants>
+  </Experiment>
 </Experiments>
