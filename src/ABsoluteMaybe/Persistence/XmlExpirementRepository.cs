@@ -28,33 +28,31 @@ namespace ABsoluteMaybe.Persistence
 			var xml = Load();
 
 			return xml.Root.Elements("Expirement")
-				.Select(exp => new Expirement
-								{
-									Name = exp.Attribute("Name").Value,
-									ConversionKeyword = exp.Attribute("ConversionKeyword") == null
-															? exp.Attribute("Name").Value
-															: exp.Attribute("ConversionKeyword").Value,
-									DateCreated = DateTime.Parse(exp.Attribute("Started").Value),
-									DateEnded = exp.Attribute("Ended") == null
-													? (DateTime?)null
-													: DateTime.Parse(exp.Attribute("Ended").Value),
-									Participants = exp.Element("Participants") == null
-													? Enumerable.Empty<ParticipationRecord>()
-													: exp.Element("Participants")
-														.Elements("Participant")
-														.Select(p => new ParticipationRecord
-																		{
-																			UserIdentifier = p.Attribute("Id").Value,
-																			AssignedOption = p.Value,
-																			HasConverted = p.Attribute("HasConverted") == null
-																							? false
-																							: bool.Parse(p.Attribute("HasConverted").Value),
-																			DateConverted = exp.Attribute("DateConverted") == null
-																								? (DateTime?)null
-																								: DateTime.Parse(
-																									p.Attribute("DateConverted").Value)
-																		})
-								});
+				.Select(exp => new Expirement(
+				               	exp.Attribute("Name").Value,
+				               	exp.Attribute("ConversionKeyword") == null
+				               		? exp.Attribute("Name").Value
+				               		: exp.Attribute("ConversionKeyword").Value,
+				               	DateTime.Parse(exp.Attribute("Started").Value),
+				               	exp.Attribute("Ended") == null
+				               		? (DateTime?) null
+				               		: DateTime.Parse(exp.Attribute("Ended").Value),
+				               	exp.Element("Participants") == null
+				               		? Enumerable.Empty<ParticipationRecord>()
+				               		: exp.Element("Participants")
+				               		  	.Elements("Participant")
+				               		  	.Select(p => new ParticipationRecord(
+				               		  	             	p.Attribute("Id").Value,
+				               		  	             	p.Value,
+				               		  	             	p.Attribute("HasConverted") == null
+				               		  	             		? false
+				               		  	             		: bool.Parse(p.Attribute("HasConverted").Value),
+				               		  	             	exp.Attribute("DateConverted") == null
+				               		  	             		? (DateTime?) null
+				               		  	             		: DateTime.Parse(
+				               		  	             			p.Attribute("DateConverted").Value)
+				               		  	             	))
+				               	));
 		}
 
 		public void CreateExpirement(string expirementName)
@@ -73,7 +71,7 @@ namespace ABsoluteMaybe.Persistence
 			                       new XAttribute("Name", expirementName),
 			                       new XAttribute("Started", UtcNow)
 				);
-			if(expirementName != conversionKeyword)
+			if (expirementName != conversionKeyword)
 				exp.Add(new XAttribute("ConversionKeyword", conversionKeyword));
 			xml.Root.Add(exp);
 
@@ -93,17 +91,16 @@ namespace ABsoluteMaybe.Persistence
 			var participants = expirement.Element("Participants");
 			var existingRecord = participants.Elements("Participant").SingleOrDefault(x => x.Attribute("Id").Value == userId);
 			if (existingRecord != null)
-				return new ParticipationRecord
-				       	{
-				       		UserIdentifier = existingRecord.Attribute("Id").Value,
-				       		AssignedOption = existingRecord.Value,
-				       		HasConverted = existingRecord.Attribute("HasConverted") == null
+				return new ParticipationRecord(
+				       	existingRecord.Attribute("Id").Value,
+				       	existingRecord.Value,
+				       	existingRecord.Attribute("HasConverted") == null
 				       		               	? false
 				       		               	: bool.Parse(existingRecord.Attribute("HasConverted").Value),
-				       		DateConverted = existingRecord.Attribute("DateConverted") == null
+				       	existingRecord.Attribute("DateConverted") == null
 				       		                	? (DateTime?) null
 				       		                	: DateTime.Parse(existingRecord.Attribute("DateConverted").Value)
-				       	};
+				       	);
 
 			var assignedOption = chooseAnOptionForUser();
 			expirement.Element("Participants").Add(new XElement("Participant",
@@ -111,12 +108,7 @@ namespace ABsoluteMaybe.Persistence
 			                                                    new XCData(assignedOption)));
 
 			Save(xml);
-			return new ParticipationRecord
-			       	{
-			       		UserIdentifier = userId,
-			       		AssignedOption = assignedOption,
-			       		HasConverted = false
-			       	};
+			return new ParticipationRecord(userId, assignedOption, false, null);
 		}
 
 		public void Convert(string conversionKeyword,

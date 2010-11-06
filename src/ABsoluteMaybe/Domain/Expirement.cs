@@ -5,11 +5,19 @@ namespace ABsoluteMaybe.Domain
 {
 	public class Expirement
 	{
-		public string Name { get; set; }
-		public string ConversionKeyword { get; set; }
-		public DateTime DateCreated { get; set; }
-		public DateTime? DateEnded { get; set; }
+		public Expirement(string name, string conversionKeyword, DateTime dateCreated, DateTime? dateEnded, IEnumerable<ParticipationRecord> participants)
+		{
+			Name = name;
+			ConversionKeyword = conversionKeyword;
+			DateCreated = dateCreated;
+			DateEnded = dateEnded;
+			Participants = participants;
+		}
 
-		public IEnumerable<ParticipationRecord> Participants { get; set; }
+		public string Name { get; private set; }
+		public string ConversionKeyword { get; private set; }
+		public DateTime DateCreated { get; private set; }
+		public DateTime? DateEnded { get; private set; }
+		public IEnumerable<ParticipationRecord> Participants { get; private set; }
 	}
 }
