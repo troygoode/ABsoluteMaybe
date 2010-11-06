@@ -19,6 +19,8 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard
 				"ABsoluteMaybeDashboard/{controller}/{action}/{id}",
 				new { action = "Index", id = UrlParameter.Optional }
 			);
+
+			ABsoluteMaybeConfiguration.Configure();
 		}
 	}
 }

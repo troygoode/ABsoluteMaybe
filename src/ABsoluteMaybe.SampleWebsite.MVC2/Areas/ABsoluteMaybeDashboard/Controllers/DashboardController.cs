@@ -9,7 +9,8 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 
 		public DashboardController()
 		{
-			
+			var storagePath = System.Web.HttpContext.Current.Server.MapPath(ABsoluteMaybeConfiguration.StoragePath);
+			_experimentRepository = new XmlExperimentRepository(storagePath);
 		}
 
 		public DashboardController(IExperimentRepository experimentRepository)
@@ -20,7 +21,8 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 		// GET: /ABsoluteMaybeDashboard/Dashboard/
 		public ViewResult Index()
 		{
-			return View();
+			var experiments = _experimentRepository.FindAllExperiments();
+			return View(experiments);
 		}
 	}
 }
