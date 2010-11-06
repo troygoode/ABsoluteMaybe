@@ -15,17 +15,21 @@ namespace ABsoluteMaybe.Persistence
 
 		#region IExpirementRepository Members
 
-		public Expirement GetOrCreateExpirement(string expirementName, IEnumerable<string> options)
+		public Expirement GetOrCreateExpirement(string expirementName,
+		                                        IEnumerable<string> options)
 		{
 			throw new NotImplementedException();
 		}
 
-		public ParticipationRecord GetOrCreateParticipationRecord(Expirement expirement, string userId)
+		public ParticipationRecord GetOrCreateParticipationRecord(string expirementName,
+		                                                          Func<string> chooseAnOptionForUser,
+		                                                          string userId)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Convert(string expirementName, string userId)
+		public void Convert(string expirementName,
+		                    string userId)
 		{
 			throw new NotImplementedException();
 		}

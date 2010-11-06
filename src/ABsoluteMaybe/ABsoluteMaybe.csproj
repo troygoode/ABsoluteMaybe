@@ -46,6 +46,8 @@
     <Compile Include="IABsoluteMaybe.cs" />
     <Compile Include="Identification\IpAddressUserIdentification.cs" />
     <Compile Include="Identification\IUserIdentification.cs" />
+    <Compile Include="OptionChoosing\IOptionChooser.cs" />
+    <Compile Include="OptionChoosing\RandomOptionChooser.cs" />
     <Compile Include="Persistence\IExpirementRepository.cs" />
     <Compile Include="Persistence\XmlExpirementRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
