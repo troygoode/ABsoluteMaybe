@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Areas\ABsoluteMaybeDashboard\ABsoluteMaybeConfiguration.cs" />
     <Compile Include="Areas\ABsoluteMaybeDashboard\ABsoluteMaybeDashboardAreaRegistration.cs" />
+    <Compile Include="Areas\ABsoluteMaybeDashboard\Controllers\DashboardController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -110,18 +111,17 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\ABsoluteMaybeDashboard\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\ABsoluteMaybeDashboard\Models\" />
+    <Folder Include="Areas\ABsoluteMaybeDashboard\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ABsoluteMaybe\ABsoluteMaybe.csproj">
       <Project>{35CEBAA5-CCCB-4301-B1D2-38CF28C0E7A5}</Project>
       <Name>ABsoluteMaybe</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Areas\ABsoluteMaybeDashboard\Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\ABsoluteMaybeDashboard\Controllers\" />
-    <Folder Include="Areas\ABsoluteMaybeDashboard\Models\" />
-    <Folder Include="Areas\ABsoluteMaybeDashboard\Views\Shared\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

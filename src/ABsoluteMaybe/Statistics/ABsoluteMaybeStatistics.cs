@@ -5,22 +5,22 @@ namespace ABsoluteMaybe.Statistics
 {
 	public class ABsoluteMaybeStatistics
 	{
-		private readonly Expirement _expirement;
+		private readonly Experiment _experiment;
 
-		public ABsoluteMaybeStatistics(Expirement expirement)
+		public ABsoluteMaybeStatistics(Experiment experiment)
 		{
-			_expirement = expirement;
+			_experiment = experiment;
 		}
 
 		public ABsoluteMaybeStatisticsResult Execute()
 		{
-			var zscore = new ZScore(_expirement.Options);
+			var zscore = new ZScore(_experiment.Options);
 			var pvalue = new PValue(zscore.Execute()).Execute();
 
-			var insufficientSampleSize = _expirement.Options.Any(o => o.Participants < 10);
+			var insufficientSampleSize = _experiment.Options.Any(o => o.Participants < 10);
 
-			var best = _expirement.Options.OrderByDescending(o => o.ConversionRate).First();
-			var worst = _expirement.Options.OrderByDescending(o => o.ConversionRate).Last();
+			var best = _experiment.Options.OrderByDescending(o => o.ConversionRate).First();
+			var worst = _experiment.Options.OrderByDescending(o => o.ConversionRate).Last();
 
 			return new ABsoluteMaybeStatisticsResult(insufficientSampleSize, 1 - pvalue, best, worst);
 		}
@@ -31,8 +31,8 @@ namespace ABsoluteMaybe.Statistics
 		{
 			public ABsoluteMaybeStatisticsResult(bool insufficientSampleSize,
 			                                     double confidenceLevel,
-			                                     Expirement.Option bestOption,
-			                                     Expirement.Option worstOption)
+			                                     Experiment.Option bestOption,
+			                                     Experiment.Option worstOption)
 			{
 				InsufficientSampleSize = insufficientSampleSize;
 				ConfidenceLevel = confidenceLevel;
@@ -42,8 +42,8 @@ namespace ABsoluteMaybe.Statistics
 
 			public bool InsufficientSampleSize { get; private set; }
 			public double ConfidenceLevel { get; private set; }
-			public Expirement.Option BestOption { get; private set; }
-			public Expirement.Option WorstOption { get; private set; }
+			public Experiment.Option BestOption { get; private set; }
+			public Experiment.Option WorstOption { get; private set; }
 		}
 
 		#endregion

@@ -41,7 +41,7 @@
     <Compile Include="ABsoluteMaybe.cs" />
     <Compile Include="ABsoluteMaybeException.cs" />
     <Compile Include="ABsoluteMaybeFactoryBuilder.cs" />
-    <Compile Include="Domain\Expirement.cs" />
+    <Compile Include="Domain\Experiment.cs" />
     <Compile Include="DefaultABsoluteMaybe.cs" />
     <Compile Include="Domain\ParticipationRecord.cs" />
     <Compile Include="IABsoluteMaybe.cs" />
@@ -49,8 +49,8 @@
     <Compile Include="Identification\IUserIdentification.cs" />
     <Compile Include="OptionChoosing\IOptionChooser.cs" />
     <Compile Include="OptionChoosing\RandomOptionChooser.cs" />
-    <Compile Include="Persistence\IExpirementRepository.cs" />
-    <Compile Include="Persistence\XmlExpirementRepository.cs" />
+    <Compile Include="Persistence\IExperimentRepository.cs" />
+    <Compile Include="Persistence\XmlExperimentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\IOptionSerializer.cs" />
     <Compile Include="Serialization\ToStringOptionSerializer.cs" />

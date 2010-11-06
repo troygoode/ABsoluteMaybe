@@ -7,11 +7,11 @@ using ABsoluteMaybe.Domain;
 
 namespace ABsoluteMaybe.Persistence
 {
-	public class XmlExpirementRepository : IExpirementRepository
+	public class XmlExperimentRepository : IExperimentRepository
 	{
 		private readonly string _pathToXmlStorage;
 
-		public XmlExpirementRepository(string pathToXmlStorage)
+		public XmlExperimentRepository(string pathToXmlStorage)
 		{
 			_pathToXmlStorage = pathToXmlStorage;
 		}
@@ -21,14 +21,14 @@ namespace ABsoluteMaybe.Persistence
 			get { return DateTime.UtcNow; }
 		}
 
-		#region IExpirementRepository Members
+		#region IExperimentRepository Members
 
-		public IEnumerable<Expirement> FindAllExpirements()
+		public IEnumerable<Experiment> FindAllExperiments()
 		{
 			var xml = Load();
 
-			return xml.Root.Elements("Expirement")
-				.Select(exp => new Expirement(
+			return xml.Root.Elements("Experiment")
+				.Select(exp => new Experiment(
 				               	exp.Attribute("Name").Value,
 				               	exp.Attribute("ConversionKeyword") == null
 				               		? exp.Attribute("Name").Value
@@ -55,40 +55,40 @@ namespace ABsoluteMaybe.Persistence
 				               	));
 		}
 
-		public void CreateExpirement(string expirementName)
+		public void CreateExperiment(string experimentName)
 		{
-			CreateExpirement(expirementName, expirementName);
+			CreateExperiment(experimentName, experimentName);
 		}
 
-		public void CreateExpirement(string expirementName, string conversionKeyword)
+		public void CreateExperiment(string experimentName, string conversionKeyword)
 		{
 			var xml = Load();
 
-			if (xml.Root.Elements("Expirement").Any(x => x.Attribute("Name").Value == expirementName))
+			if (xml.Root.Elements("Experiment").Any(x => x.Attribute("Name").Value == experimentName))
 				return;
 
-			var exp = new XElement("Expirement",
-			                       new XAttribute("Name", expirementName),
+			var exp = new XElement("Experiment",
+								   new XAttribute("Name", experimentName),
 			                       new XAttribute("Started", UtcNow)
 				);
-			if (expirementName != conversionKeyword)
+			if (experimentName != conversionKeyword)
 				exp.Add(new XAttribute("ConversionKeyword", conversionKeyword));
 			xml.Root.Add(exp);
 
 			Save(xml);
 		}
 
-		public ParticipationRecord GetOrCreateParticipationRecord(string expirementName,
+		public ParticipationRecord GetOrCreateParticipationRecord(string experimentName,
 		                                                          Func<string> chooseAnOptionForUser,
 		                                                          string userId)
 		{
 			var xml = Load();
 
-			var expirement = xml.Root.Elements("Expirement").Single(x => x.Attribute("Name").Value == expirementName);
-			if (expirement.Element("Participants") == null)
-				expirement.Add(new XElement("Participants"));
+			var experiment = xml.Root.Elements("Experiment").Single(x => x.Attribute("Name").Value == experimentName);
+			if (experiment.Element("Participants") == null)
+				experiment.Add(new XElement("Participants"));
 
-			var participants = expirement.Element("Participants");
+			var participants = experiment.Element("Participants");
 			var existingRecord = participants.Elements("Participant").SingleOrDefault(x => x.Attribute("Id").Value == userId);
 			if (existingRecord != null)
 				return new ParticipationRecord(
@@ -103,7 +103,7 @@ namespace ABsoluteMaybe.Persistence
 				       	);
 
 			var assignedOption = chooseAnOptionForUser();
-			expirement.Element("Participants").Add(new XElement("Participant",
+			experiment.Element("Participants").Add(new XElement("Participant",
 			                                                    new XAttribute("Id", userId),
 			                                                    new XCData(assignedOption)));
 
@@ -117,12 +117,12 @@ namespace ABsoluteMaybe.Persistence
 			var xml = Load();
 
 			var utcNow = UtcNow;
-			var expirements = xml.Root.Elements("Expirement")
+			var experiments = xml.Root.Elements("Experiment")
 				.Where(x =>
 				       x.Attribute("Name").Value == conversionKeyword ||
 				       (x.Attribute("ConversionKeyword") != null && x.Attribute("ConversionKeyword").Value == conversionKeyword));
-			foreach (var participant in expirements
-				.Select(expirement => expirement.Element("Participants"))
+			foreach (var participant in experiments
+				.Select(experiment => experiment.Element("Participants"))
 				.Select(participants => participants.Elements("Participant").Single(x => x.Attribute("Id").Value == userId))
 				.Where(participant => participant.Attribute("HasConverted") == null))
 			{
@@ -138,7 +138,7 @@ namespace ABsoluteMaybe.Persistence
 		{
 			return File.Exists(_pathToXmlStorage)
 			       	? XDocument.Load(_pathToXmlStorage)
-			       	: new XDocument(new XElement("Expirements"));
+			       	: new XDocument(new XElement("Experiments"));
 		}
 
 		protected virtual void Save(XDocument xml)

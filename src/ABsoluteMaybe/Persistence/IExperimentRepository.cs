@@ -4,14 +4,14 @@ using ABsoluteMaybe.Domain;
 
 namespace ABsoluteMaybe.Persistence
 {
-	public interface IExpirementRepository
+	public interface IExperimentRepository
 	{
-		IEnumerable<Expirement> FindAllExpirements();
+		IEnumerable<Experiment> FindAllExperiments();
 
-		void CreateExpirement(string expirementName);
-		void CreateExpirement(string expirementName, string conversionKeyword);
+		void CreateExperiment(string experimentName);
+		void CreateExperiment(string experimentName, string conversionKeyword);
 
-		ParticipationRecord GetOrCreateParticipationRecord(string expirementName,
+		ParticipationRecord GetOrCreateParticipationRecord(string experimentName,
 		                                                   Func<string> chooseAnOptionForUser,
 		                                                   string userId);
 

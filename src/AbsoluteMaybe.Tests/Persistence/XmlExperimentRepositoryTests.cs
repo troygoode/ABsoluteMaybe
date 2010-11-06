@@ -9,7 +9,7 @@ using Should;
 namespace AbsoluteMaybe.Tests.Persistence
 {
 	[TestFixture]
-	public class XmlExpirementRepositoryTests
+	public class XmlExperimentRepositoryTests
 	{
 		#region Setup/Teardown
 
@@ -23,7 +23,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 
 		private XmlRepoStub _repo;
 
-		public class XmlRepoStub : XmlExpirementRepository
+		public class XmlRepoStub : XmlExperimentRepository
 		{
 			public XmlRepoStub() : base(string.Empty)
 			{
@@ -47,7 +47,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			protected override XDocument Load()
 			{
 				return string.IsNullOrWhiteSpace(SavedXml)
-				       	? new XDocument(new XElement("Expirements"))
+				       	? new XDocument(new XElement("Experiments"))
 				       	: XDocument.Parse(SavedXml);
 			}
 
@@ -58,22 +58,22 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
-		public void FindAllExpirementsReturnsAllExpirements()
+		public void FindAllExperimentsReturnsAllExperiments()
 		{
 			//arrange
 			_repo.Reset();
-			// - expirement one
-			_repo.CreateExpirement("Expirement1");
-			_repo.GetOrCreateParticipationRecord("Expirement1", () => "Expirement One", "User 1");
-			// - expirement two
-			_repo.CreateExpirement("Expirement2");
-			_repo.GetOrCreateParticipationRecord("Expirement2", () => "Expirement Two", "User 1");
-			_repo.GetOrCreateParticipationRecord("Expirement2", () => "Expirement Two", "User 2");
-			// - expirement three
-			_repo.CreateExpirement("Expirement3");
+			// - experiment one
+			_repo.CreateExperiment("Experiment1");
+			_repo.GetOrCreateParticipationRecord("Experiment1", () => "Experiment One", "User 1");
+			// - experiment two
+			_repo.CreateExperiment("Experiment2");
+			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", "User 1");
+			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", "User 2");
+			// - experiment three
+			_repo.CreateExperiment("Experiment3");
 
 			//act
-			var result = _repo.FindAllExpirements();
+			var result = _repo.FindAllExperiments();
 
 			//assert
 			result.Count().ShouldEqual(3);
@@ -83,30 +83,30 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
-		public void ConvertMarksOnlyExpirementsWithMatchingNameOrConversionKeyword()
+		public void ConvertMarksOnlyExperimentsWithMatchingNameOrConversionKeyword()
 		{
 			//arrange
 			_repo.Reset();
 			const string userId = "USER_123";
-			// - expirement one
-			_repo.CreateExpirement("CORRECT_CONVERSION_KEYWORD");
-			_repo.GetOrCreateParticipationRecord("CORRECT_CONVERSION_KEYWORD", () => "Expirement One", userId);
-			// - expirement two
-			_repo.CreateExpirement("Expirement2");
-			_repo.GetOrCreateParticipationRecord("Expirement2", () => "Expirement Two", userId);
-			// - expirement three
-			_repo.CreateExpirement("Expirement3", "CORRECT_CONVERSION_KEYWORD");
-			_repo.GetOrCreateParticipationRecord("Expirement3", () => "Expirement Three", userId);
+			// - experiment one
+			_repo.CreateExperiment("CORRECT_CONVERSION_KEYWORD");
+			_repo.GetOrCreateParticipationRecord("CORRECT_CONVERSION_KEYWORD", () => "Experiment One", userId);
+			// - experiment two
+			_repo.CreateExperiment("Experiment2");
+			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", userId);
+			// - experiment three
+			_repo.CreateExperiment("Experiment3", "CORRECT_CONVERSION_KEYWORD");
+			_repo.GetOrCreateParticipationRecord("Experiment3", () => "Experiment Three", userId);
 
 			//act
 			_repo.Convert("CORRECT_CONVERSION_KEYWORD", userId);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var expirements = xml.Root.Elements("Expirement");
-			expirements.Count().ShouldEqual(3);
+			var experiments = xml.Root.Elements("Experiment");
+			experiments.Count().ShouldEqual(3);
 
-			var records = expirements.Aggregate(new List<XElement>(),
+			var records = experiments.Aggregate(new List<XElement>(),
 			                                    (list, exp) =>
 			                                    	{
 			                                    		var participants =
@@ -128,18 +128,18 @@ namespace AbsoluteMaybe.Tests.Persistence
 			var timestamp = new DateTime(2000, 1, 1);
 			_repo.Reset();
 			_repo.UtcNowFactory = () => timestamp;
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExpirement(expirementName);
-			_repo.GetOrCreateParticipationRecord(expirementName, () => assignedOption, userId);
+			_repo.CreateExperiment(experimentName);
+			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//act
-			_repo.Convert(expirementName, userId);
+			_repo.Convert(experimentName, userId);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var record = exp.Element("Participants").Elements("Participant").Single();
 
@@ -153,22 +153,22 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
-		public void ConvertMarksParticipantsInRecordsWithConversionKeywordDifferentThanExpirementName()
+		public void ConvertMarksParticipantsInRecordsWithConversionKeywordDifferentThanExperimentName()
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string convKeyword = "CONVERT_ON_ME";
 			const string userId = "USER_123";
-			_repo.CreateExpirement(expirementName, convKeyword);
-			_repo.GetOrCreateParticipationRecord(expirementName, () => "Foo", userId);
+			_repo.CreateExperiment(experimentName, convKeyword);
+			_repo.GetOrCreateParticipationRecord(experimentName, () => "Foo", userId);
 
 			//act
 			_repo.Convert(convKeyword, userId);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var record = exp.Element("Participants").Elements("Participant").Single();
 
@@ -185,20 +185,20 @@ namespace AbsoluteMaybe.Tests.Persistence
 			var secondTimestamp = new DateTime(2001, 1, 1);
 			_repo.Reset();
 			_repo.UtcNowFactory = () => firstTimestamp;
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExpirement(expirementName);
-			_repo.GetOrCreateParticipationRecord(expirementName, () => assignedOption, userId);
-			_repo.Convert(expirementName, userId);
+			_repo.CreateExperiment(experimentName);
+			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
+			_repo.Convert(experimentName, userId);
 
 			//act
 			_repo.UtcNowFactory = () => secondTimestamp;
-			_repo.Convert(expirementName, userId);
+			_repo.Convert(experimentName, userId);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var record = exp.Element("Participants").Elements("Participant").Single();
 
@@ -212,41 +212,41 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
-		public void CreateExpirementDoesNotRecordTimeThatExpirementEnded()
+		public void CreateExperimentDoesNotRecordTimeThatExperimentEnded()
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 
 			//act
-			_repo.CreateExpirement(expirementName);
+			_repo.CreateExperiment(experimentName);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			exp.Attribute("Ended").ShouldBeNull();
 		}
 
 		[Test]
-		public void CreateExpirementDoesntOverwriteExpirementIfItAlreadyExists()
+		public void CreateExperimentDoesntOverwriteExperimentIfItAlreadyExists()
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Existing Expirement";
+			const string experimentName = "Existing Experiment";
 			const string convKeyOld = "CONVERT_ON_ME";
-			_repo.CreateExpirement(expirementName, convKeyOld);
-			_repo.GetOrCreateParticipationRecord(expirementName, () => "O1", "USER_1");
+			_repo.CreateExperiment(experimentName, convKeyOld);
+			_repo.GetOrCreateParticipationRecord(experimentName, () => "O1", "USER_1");
 
 			//act
-			_repo.CreateExpirement(expirementName, "CONV_KEY_NEW");
+			_repo.CreateExperiment(experimentName, "CONV_KEY_NEW");
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var expirements = xml.Root.Elements("Expirement");
-			expirements.Count().ShouldEqual(1);
+			var experiments = xml.Root.Elements("Experiment");
+			experiments.Count().ShouldEqual(1);
 
-			var exp = expirements.Single();
+			var exp = experiments.Single();
 
 			var convKeyAtt = exp.Attribute("ConversionKeyword");
 			convKeyAtt.ShouldNotBeNull();
@@ -257,37 +257,37 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
-		public void CreateExpirementDoesntStoreConversionKeywordWhenItIsSameAsExpirementName()
+		public void CreateExperimentDoesntStoreConversionKeywordWhenItIsSameAsExperimentName()
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
-			const string convKey = expirementName;
+			const string experimentName = "Troy's Experiment";
+			const string convKey = experimentName;
 
 			//act
-			_repo.CreateExpirement(expirementName, convKey);
+			_repo.CreateExperiment(experimentName, convKey);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 			exp.Attribute("ConversionKeyword").ShouldBeNull();
 		}
 
 		[Test]
-		public void CreateExpirementRecordsTimeOfExpirementCreation()
+		public void CreateExperimentRecordsTimeOfExperimentCreation()
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			var timestamp = new DateTime(2000, 1, 1);
 			_repo.UtcNowFactory = () => timestamp;
 
 			//act
-			_repo.CreateExpirement(expirementName);
+			_repo.CreateExperiment(experimentName);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var created = exp.Attribute("Started");
 			created.ShouldNotBeNull();
@@ -297,26 +297,26 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
-		public void CreateExpirementSavesExpirementWhenItIsntAlreadySaved()
+		public void CreateExperimentSavesExperimentWhenItIsntAlreadySaved()
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string convKey = "CONVERT_ON_ME";
 
 			//act
-			_repo.CreateExpirement(expirementName, convKey);
+			_repo.CreateExperiment(experimentName, convKey);
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var expirements = xml.Root.Elements("Expirement");
-			expirements.Count().ShouldEqual(1);
+			var experiments = xml.Root.Elements("Experiment");
+			experiments.Count().ShouldEqual(1);
 
-			var exp = expirements.Single();
+			var exp = experiments.Single();
 
 			var nameAtt = exp.Attribute("Name");
 			nameAtt.ShouldNotBeNull();
-			nameAtt.Value.ShouldEqual(expirementName);
+			nameAtt.Value.ShouldEqual(experimentName);
 
 			var convAtt = exp.Attribute("ConversionKeyword");
 			convAtt.ShouldNotBeNull();
@@ -328,20 +328,20 @@ namespace AbsoluteMaybe.Tests.Persistence
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExpirement(expirementName);
+			_repo.CreateExperiment(experimentName);
 
 			//act
-			var result = _repo.GetOrCreateParticipationRecord(expirementName, () => assignedOption, userId);
+			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//assert
 			result.UserIdentifier.ShouldEqual(userId);
 			result.AssignedOption.ShouldEqual(assignedOption);
 
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var records = exp.Element("Participants").Elements("Participant");
 			records.Count().ShouldEqual(1);
@@ -359,19 +359,19 @@ namespace AbsoluteMaybe.Tests.Persistence
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExpirement(expirementName);
+			_repo.CreateExperiment(experimentName);
 
 			//act
-			var result = _repo.GetOrCreateParticipationRecord(expirementName, () => assignedOption, userId);
+			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//assert
 			result.HasConverted.ShouldBeFalse();
 
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var record = exp.Element("Participants").Elements("Participant").Single();
 			record.Attribute("HasConverted").ShouldBeNull();
@@ -383,21 +383,21 @@ namespace AbsoluteMaybe.Tests.Persistence
 		{
 			//arrange
 			_repo.Reset();
-			const string expirementName = "Troy's Expirement";
+			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExpirement(expirementName);
-			_repo.GetOrCreateParticipationRecord(expirementName, () => assignedOption, userId);
+			_repo.CreateExperiment(experimentName);
+			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//act
-			var result = _repo.GetOrCreateParticipationRecord(expirementName, () => "Bar", userId);
+			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => "Bar", userId);
 
 			//assert
 			result.UserIdentifier.ShouldEqual(userId);
 			result.AssignedOption.ShouldEqual(assignedOption);
 
 			var xml = XDocument.Parse(_repo.SavedXml);
-			var exp = xml.Root.Elements("Expirement").Single();
+			var exp = xml.Root.Elements("Experiment").Single();
 
 			var records = exp.Element("Participants").Elements("Participant");
 			records.Count().ShouldEqual(1);

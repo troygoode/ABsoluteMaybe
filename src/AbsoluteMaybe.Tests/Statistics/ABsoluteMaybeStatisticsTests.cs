@@ -14,7 +14,7 @@ namespace AbsoluteMaybe.Tests.Statistics
 		{
 			//arrange
 			var participants = CreateRandomParticipationRecords(100, 200);
-			var exp = new Expirement(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants);
 
 			//act
 			var stats = new ABsoluteMaybeStatistics(exp);

@@ -7,9 +7,9 @@ namespace ABsoluteMaybe.Statistics
 {
 	public class ZScore
 	{
-		private readonly IEnumerable<Expirement.Option> _options;
+		private readonly IEnumerable<Experiment.Option> _options;
 
-		public ZScore(IEnumerable<Expirement.Option> options)
+		public ZScore(IEnumerable<Experiment.Option> options)
 		{
 			_options = options;
 		}

@@ -10,20 +10,20 @@ namespace ABsoluteMaybe
 {
 	public class DefaultABsoluteMaybe : IABsoluteMaybe
 	{
-		private readonly IExpirementRepository _expirementRepository;
+		private readonly IExperimentRepository _experimentRepository;
 		private readonly IOptionChooser _optionChooser;
 		private readonly IOptionSerializer _optionSerializer;
 		private readonly IEnumerable<IUserFilter> _userFilters;
 		private readonly IUserIdentification _userIdentification;
 
-		public DefaultABsoluteMaybe(IExpirementRepository expirementRepository,
+		public DefaultABsoluteMaybe(IExperimentRepository experimentRepository,
 		                            IOptionChooser optionChooser,
 		                            IOptionSerializer optionSerializer,
 		                            IUserIdentification userIdentification,
 		                            IEnumerable<IUserFilter> userFilters
 			)
 		{
-			_expirementRepository = expirementRepository;
+			_experimentRepository = experimentRepository;
 			_optionChooser = optionChooser;
 			_optionSerializer = optionSerializer;
 			_userIdentification = userIdentification;
@@ -32,7 +32,7 @@ namespace ABsoluteMaybe
 
 		#region IABsoluteMaybe Members
 
-		public T Test<T>(string expirementName,
+		public T Test<T>(string experimentName,
 		                 string conversionKeyword,
 		                 IEnumerable<T> options)
 		{
@@ -40,10 +40,10 @@ namespace ABsoluteMaybe
 			if (_userFilters.Any(filter => filter.FilterOut(userId)))
 				return options.First();
 
-			_expirementRepository.CreateExpirement(expirementName, conversionKeyword);
+			_experimentRepository.CreateExperiment(experimentName, conversionKeyword);
 
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
-			var participationRecord = _expirementRepository.GetOrCreateParticipationRecord(expirementName,
+			var participationRecord = _experimentRepository.GetOrCreateParticipationRecord(experimentName,
 			                                                                               () =>
 			                                                                               _optionChooser.Choose(optionsAsStrings),
 			                                                                               userId);
@@ -57,7 +57,7 @@ namespace ABsoluteMaybe
 			if (_userFilters.Any(filter => filter.FilterOut(userId)))
 				return;
 
-			_expirementRepository.Convert(conversionKeyword, userId);
+			_experimentRepository.Convert(conversionKeyword, userId);
 		}
 
 		#endregion

@@ -16,24 +16,24 @@ namespace ABsoluteMaybe
 		                                                                 		() => new SpiderFilter()
 		                                                                 	};
 
-		private Func<IExpirementRepository> _expirementRepositoryFactory;
+		private Func<IExperimentRepository> _experimentRepositoryFactory;
 		private Func<IOptionChooser> _optionChooserFactory = () => new RandomOptionChooser();
 		private Func<IOptionSerializer> _optionSerializerFactory = () => new ToStringOptionSerializer();
 		private Func<IUserIdentification> _userIdentificationFactory = () => new IpAddressUserIdentification();
 
 		public ABsoluteMaybeFactoryBuilder(string pathToXmlStorage)
-			: this(() => new XmlExpirementRepository(pathToXmlStorage))
+			: this(() => new XmlExperimentRepository(pathToXmlStorage))
 		{
 		}
 
-		public ABsoluteMaybeFactoryBuilder(Func<IExpirementRepository> expirementRepositoryFactory)
+		public ABsoluteMaybeFactoryBuilder(Func<IExperimentRepository> experimentRepositoryFactory)
 		{
-			SetExpirementRepository(expirementRepositoryFactory);
+			SetExperimentRepository(experimentRepositoryFactory);
 		}
 
-		public ABsoluteMaybeFactoryBuilder SetExpirementRepository(Func<IExpirementRepository> expirementRepositoryFactory)
+		public ABsoluteMaybeFactoryBuilder SetExperimentRepository(Func<IExperimentRepository> experimentRepositoryFactory)
 		{
-			_expirementRepositoryFactory = expirementRepositoryFactory;
+			_experimentRepositoryFactory = experimentRepositoryFactory;
 			return this;
 		}
 
@@ -71,7 +71,7 @@ namespace ABsoluteMaybe
 		{
 			return
 				() =>
-				new DefaultABsoluteMaybe(_expirementRepositoryFactory(),
+				new DefaultABsoluteMaybe(_experimentRepositoryFactory(),
 				                         _optionChooserFactory(),
 				                         _optionSerializerFactory(),
 				                         _userIdentificationFactory(),

@@ -7,7 +7,7 @@ using Should;
 namespace AbsoluteMaybe.Tests.Domain
 {
 	[TestFixture]
-	public class ExpirementTests
+	public class ExperimentTests
 	{
 		[Test]
 		public void OptionsAreGroupedProperly()
@@ -20,7 +20,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user1", "OPTION_2", false, null),
 									new ParticipationRecord("user2", "OPTION_2", false, null),
 			                   	};
-			var exp = new Expirement(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants);
 
 			//act
 			var options = exp.Options;
@@ -41,7 +41,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user2", "OPTION_2", false, null),
 									new ParticipationRecord("user3", "OPTION_2", false, null),
 			                   	};
-			var exp = new Expirement(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants);
 
 			//act
 			var options = exp.Options;
@@ -63,7 +63,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user2", "OPTION_2", true, DateTime.Now),
 									new ParticipationRecord("user3", "OPTION_2", false, null),
 			                   	};
-			var exp = new Expirement(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants);
 
 			//act
 			var options = exp.Options;
@@ -84,7 +84,7 @@ namespace AbsoluteMaybe.Tests.Domain
 									new ParticipationRecord("user3", "OPTION_1", false, null),
 									new ParticipationRecord("user4", "OPTION_1", true, DateTime.Now)
 			                   	};
-			var exp = new Expirement(null, null, DateTime.Now, null, participants);
+			var exp = new Experiment(null, null, DateTime.Now, null, participants);
 
 			//act
 			var options = exp.Options;
