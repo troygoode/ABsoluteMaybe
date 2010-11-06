@@ -52,6 +52,7 @@
     <Compile Include="Domain\ExpirementTests.cs" />
     <Compile Include="Persistence\XmlExpirementRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistics\ABsoluteMaybeStatisticsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

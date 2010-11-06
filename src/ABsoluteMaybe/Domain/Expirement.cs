@@ -6,6 +6,8 @@ namespace ABsoluteMaybe.Domain
 {
 	public class Expirement
 	{
+		private IEnumerable<Option> _options;
+
 		public Expirement(string name, string conversionKeyword, DateTime dateCreated, DateTime? dateEnded,
 		                  IEnumerable<ParticipationRecord> participants)
 		{
@@ -22,7 +24,6 @@ namespace ABsoluteMaybe.Domain
 		public DateTime? DateEnded { get; private set; }
 		public IEnumerable<ParticipationRecord> Participants { get; private set; }
 
-		private IEnumerable<Option> _options;
 		public IEnumerable<Option> Options
 		{
 			get
@@ -33,6 +34,16 @@ namespace ABsoluteMaybe.Domain
 				                               	                        g.Count(),
 				                               	                        g.Count(p => p.HasConverted))));
 			}
+		}
+
+		public int TotalParticipants
+		{
+			get { return _options.Select(o => o.Participants).Sum(); }
+		}
+
+		public int TotalConversions
+		{
+			get { return _options.Select(o => o.Conversions).Sum(); }
 		}
 
 		#region Nested type: Option

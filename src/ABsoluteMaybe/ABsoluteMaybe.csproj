@@ -53,10 +53,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\IOptionSerializer.cs" />
     <Compile Include="Serialization\ToStringOptionSerializer.cs" />
+    <Compile Include="Statistics\ABingoStyleFormatter.cs" />
+    <Compile Include="Statistics\ABsoluteMaybeStatistics.cs" />
+    <Compile Include="Statistics\PValue.cs" />
+    <Compile Include="Statistics\ZScore.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Statistics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
