@@ -40,9 +40,9 @@ namespace ABsoluteMaybe
 			if (_userFilters.Any(filter => filter.FilterOut(userId)))
 				return options.First();
 
-			_experimentRepository.CreateExperiment(experimentName, conversionKeyword);
-
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
+			_experimentRepository.CreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
+
 			var participationRecord = _experimentRepository.GetOrCreateParticipationRecord(experimentName,
 			                                                                               () =>
 			                                                                               _optionChooser.Choose(optionsAsStrings),

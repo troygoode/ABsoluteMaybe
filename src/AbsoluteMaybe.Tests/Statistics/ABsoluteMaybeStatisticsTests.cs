@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ABsoluteMaybe.Domain;
 using ABsoluteMaybe.Statistics;
 using NUnit.Framework;
+using Should;
 
 namespace AbsoluteMaybe.Tests.Statistics
 {
@@ -21,8 +22,8 @@ namespace AbsoluteMaybe.Tests.Statistics
 			var formatted = new ABingoStyleFormatter(stats);
 
 			//assert
-			var tostring = formatted.ToString();
-			var foo = "bar";
+			formatted.ShouldNotBeNull();
+			formatted.ToString().ShouldNotEqual(string.Empty);
 		}
 
 		private static IEnumerable<ParticipationRecord> CreateRandomParticipationRecords(int min, int max)

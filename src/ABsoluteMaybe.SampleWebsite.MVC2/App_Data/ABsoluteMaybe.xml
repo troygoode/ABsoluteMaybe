@@ -1,18 +1,3 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Experiments>
-  <Experiment Name="Homepage Message Casing" Started="2010-11-06T20:50:18.6064454Z" ConversionKeyword="Purchased Bumper Sticker">
-    <Participants>
-      <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T20:50:21.7792969Z"><![CDATA[Proper Case]]></Participant>
-    </Participants>
-  </Experiment>
-  <Experiment Name="Begging Totally Works" Started="2010-11-06T20:50:18.6113282Z">
-    <Participants>
-      <Participant Id="127.0.0.1"><![CDATA[False]]></Participant>
-    </Participants>
-  </Experiment>
-  <Experiment Name="Free Shipping" Started="2010-11-06T20:50:20.8261719Z" ConversionKeyword="Purchased Bumper Sticker">
-    <Participants>
-      <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T20:50:21.7792969Z"><![CDATA[0]]></Participant>
-    </Participants>
-  </Experiment>
 </Experiments>

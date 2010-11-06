@@ -8,7 +8,10 @@ namespace ABsoluteMaybe.Domain
 	{
 		private IEnumerable<Option> _options;
 
-		public Experiment(string name, string conversionKeyword, DateTime dateCreated, DateTime? dateEnded,
+		public Experiment(string name,
+		                  string conversionKeyword,
+		                  DateTime dateCreated,
+		                  DateTime? dateEnded,
 		                  IEnumerable<ParticipationRecord> participants)
 		{
 			Name = name;

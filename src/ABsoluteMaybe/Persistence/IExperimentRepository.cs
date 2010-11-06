@@ -8,8 +8,8 @@ namespace ABsoluteMaybe.Persistence
 	{
 		IEnumerable<Experiment> FindAllExperiments();
 
-		void CreateExperiment(string experimentName);
-		void CreateExperiment(string experimentName, string conversionKeyword);
+		void CreateExperiment(string experimentName, IEnumerable<string> options);
+		void CreateExperiment(string experimentName, string conversionKeyword, IEnumerable<string> options);
 
 		ParticipationRecord GetOrCreateParticipationRecord(string experimentName,
 		                                                   Func<string> chooseAnOptionForUser,

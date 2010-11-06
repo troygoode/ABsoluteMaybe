@@ -55,12 +55,12 @@ namespace ABsoluteMaybe.Persistence
 				               	));
 		}
 
-		public void CreateExperiment(string experimentName)
+		public void CreateExperiment(string experimentName, IEnumerable<string> options)
 		{
-			CreateExperiment(experimentName, experimentName);
+			CreateExperiment(experimentName, experimentName, options);
 		}
 
-		public void CreateExperiment(string experimentName, string conversionKeyword)
+		public void CreateExperiment(string experimentName, string conversionKeyword, IEnumerable<string> options)
 		{
 			var xml = Load();
 
@@ -69,7 +69,10 @@ namespace ABsoluteMaybe.Persistence
 
 			var exp = new XElement("Experiment",
 								   new XAttribute("Name", experimentName),
-			                       new XAttribute("Started", UtcNow)
+			                       new XAttribute("Started", UtcNow),
+								   new XElement("PossibleOptionValues",
+									   options.Select(o=> new XElement("Option", new XCData(o)))
+									   )
 				);
 			if (experimentName != conversionKeyword)
 				exp.Add(new XAttribute("ConversionKeyword", conversionKeyword));

@@ -63,14 +63,14 @@ namespace AbsoluteMaybe.Tests.Persistence
 			//arrange
 			_repo.Reset();
 			// - experiment one
-			_repo.CreateExperiment("Experiment1");
+			_repo.CreateExperiment("Experiment1", new[] { "Experiment One", "Bar" });
 			_repo.GetOrCreateParticipationRecord("Experiment1", () => "Experiment One", "User 1");
 			// - experiment two
-			_repo.CreateExperiment("Experiment2");
+			_repo.CreateExperiment("Experiment2", new[] { "Foo", "Experiment Two" });
 			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", "User 1");
 			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", "User 2");
 			// - experiment three
-			_repo.CreateExperiment("Experiment3");
+			_repo.CreateExperiment("Experiment3", new[] { "Foo", "Bar" });
 
 			//act
 			var result = _repo.FindAllExperiments();
@@ -89,13 +89,13 @@ namespace AbsoluteMaybe.Tests.Persistence
 			_repo.Reset();
 			const string userId = "USER_123";
 			// - experiment one
-			_repo.CreateExperiment("CORRECT_CONVERSION_KEYWORD");
+			_repo.CreateExperiment("CORRECT_CONVERSION_KEYWORD", new[] { "Experiment One", "Bar" });
 			_repo.GetOrCreateParticipationRecord("CORRECT_CONVERSION_KEYWORD", () => "Experiment One", userId);
 			// - experiment two
-			_repo.CreateExperiment("Experiment2");
+			_repo.CreateExperiment("Experiment2", new[] { "Foo", "Experiment Two" });
 			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", userId);
 			// - experiment three
-			_repo.CreateExperiment("Experiment3", "CORRECT_CONVERSION_KEYWORD");
+			_repo.CreateExperiment("Experiment3", "CORRECT_CONVERSION_KEYWORD", new[] { "Experiment Three", "Bar" });
 			_repo.GetOrCreateParticipationRecord("Experiment3", () => "Experiment Three", userId);
 
 			//act
@@ -131,7 +131,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//act
@@ -160,7 +160,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string convKeyword = "CONVERT_ON_ME";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, convKeyword);
+			_repo.CreateExperiment(experimentName, convKeyword, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => "Foo", userId);
 
 			//act
@@ -188,7 +188,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[]{ "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 			_repo.Convert(experimentName, userId);
 
@@ -219,7 +219,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 
 			//act
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -235,11 +235,11 @@ namespace AbsoluteMaybe.Tests.Persistence
 			_repo.Reset();
 			const string experimentName = "Existing Experiment";
 			const string convKeyOld = "CONVERT_ON_ME";
-			_repo.CreateExperiment(experimentName, convKeyOld);
-			_repo.GetOrCreateParticipationRecord(experimentName, () => "O1", "USER_1");
+			_repo.CreateExperiment(experimentName, convKeyOld, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateParticipationRecord(experimentName, () => "Foo", "USER_1");
 
 			//act
-			_repo.CreateExperiment(experimentName, "CONV_KEY_NEW");
+			_repo.CreateExperiment(experimentName, "CONV_KEY_NEW", new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -265,7 +265,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string convKey = experimentName;
 
 			//act
-			_repo.CreateExperiment(experimentName, convKey);
+			_repo.CreateExperiment(experimentName, convKey, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -283,7 +283,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			_repo.UtcNowFactory = () => timestamp;
 
 			//act
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -297,6 +297,27 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
+		public void CreateExperimentRecordsAllPossibleOptionValues()
+		{
+			//arrange
+			_repo.Reset();
+			const string experimentName = "Troy's Experiment";
+
+			//act
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+
+			//assert
+			var xml = XDocument.Parse(_repo.SavedXml);
+			var exp = xml.Root.Elements("Experiment").Single();
+
+			var possibleOptionValues = exp.Element("PossibleOptionValues");
+			possibleOptionValues.ShouldNotBeNull();
+			possibleOptionValues.Elements("Option").Count().ShouldEqual(2);
+			possibleOptionValues.Elements("Option").ElementAt(0).Value.ShouldEqual("Foo");
+			possibleOptionValues.Elements("Option").ElementAt(1).Value.ShouldEqual("Bar");
+		}
+
+		[Test]
 		public void CreateExperimentSavesExperimentWhenItIsntAlreadySaved()
 		{
 			//arrange
@@ -305,7 +326,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string convKey = "CONVERT_ON_ME";
 
 			//act
-			_repo.CreateExperiment(experimentName, convKey);
+			_repo.CreateExperiment(experimentName, convKey, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -331,7 +352,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//act
 			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
@@ -362,7 +383,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//act
 			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
@@ -386,7 +407,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName);
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//act
