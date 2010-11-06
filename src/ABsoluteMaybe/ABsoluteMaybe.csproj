@@ -57,6 +57,8 @@
     <Compile Include="Statistics\ABsoluteMaybeStatistics.cs" />
     <Compile Include="Statistics\PValue.cs" />
     <Compile Include="Statistics\ZScore.cs" />
+    <Compile Include="UserFiltering\IUserFilter.cs" />
+    <Compile Include="UserFiltering\SpiderFilter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
