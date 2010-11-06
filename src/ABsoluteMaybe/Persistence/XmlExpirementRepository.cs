@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -21,6 +22,40 @@ namespace ABsoluteMaybe.Persistence
 		}
 
 		#region IExpirementRepository Members
+
+		public IEnumerable<Expirement> FindAllExpirements()
+		{
+			var xml = Load();
+
+			return xml.Root.Elements("Expirement")
+				.Select(exp => new Expirement
+								{
+									Name = exp.Attribute("Name").Value,
+									ConversionKeyword = exp.Attribute("ConversionKeyword") == null
+															? exp.Attribute("Name").Value
+															: exp.Attribute("ConversionKeyword").Value,
+									DateCreated = DateTime.Parse(exp.Attribute("Started").Value),
+									DateEnded = exp.Attribute("Ended") == null
+													? (DateTime?)null
+													: DateTime.Parse(exp.Attribute("Ended").Value),
+									Participants = exp.Element("Participants") == null
+													? Enumerable.Empty<ParticipationRecord>()
+													: exp.Element("Participants")
+														.Elements("Participant")
+														.Select(p => new ParticipationRecord
+																		{
+																			UserIdentifier = p.Attribute("Id").Value,
+																			AssignedOption = p.Value,
+																			HasConverted = p.Attribute("HasConverted") == null
+																							? false
+																							: bool.Parse(p.Attribute("HasConverted").Value),
+																			DateConverted = exp.Attribute("DateConverted") == null
+																								? (DateTime?)null
+																								: DateTime.Parse(
+																									p.Attribute("DateConverted").Value)
+																		})
+								});
+		}
 
 		public void CreateExpirement(string expirementName)
 		{

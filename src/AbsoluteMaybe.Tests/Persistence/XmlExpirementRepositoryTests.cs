@@ -58,6 +58,31 @@ namespace AbsoluteMaybe.Tests.Persistence
 		}
 
 		[Test]
+		public void FindAllExpirementsReturnsAllExpirements()
+		{
+			//arrange
+			_repo.Reset();
+			// - expirement one
+			_repo.CreateExpirement("Expirement1");
+			_repo.GetOrCreateParticipationRecord("Expirement1", () => "Expirement One", "User 1");
+			// - expirement two
+			_repo.CreateExpirement("Expirement2");
+			_repo.GetOrCreateParticipationRecord("Expirement2", () => "Expirement Two", "User 1");
+			_repo.GetOrCreateParticipationRecord("Expirement2", () => "Expirement Two", "User 2");
+			// - expirement three
+			_repo.CreateExpirement("Expirement3");
+
+			//act
+			var result = _repo.FindAllExpirements();
+
+			//assert
+			result.Count().ShouldEqual(3);
+			result.ElementAt(0).Participants.Count().ShouldEqual(1);
+			result.ElementAt(1).Participants.Count().ShouldEqual(2);
+			result.ElementAt(2).Participants.Count().ShouldEqual(0);
+		}
+
+		[Test]
 		public void ConvertMarksOnlyExpirementsWithMatchingNameOrConversionKeyword()
 		{
 			//arrange
@@ -69,7 +94,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			// - expirement two
 			_repo.CreateExpirement("Expirement2");
 			_repo.GetOrCreateParticipationRecord("Expirement2", () => "Expirement Two", userId);
-			// - expirement two
+			// - expirement three
 			_repo.CreateExpirement("Expirement3", "CORRECT_CONVERSION_KEYWORD");
 			_repo.GetOrCreateParticipationRecord("Expirement3", () => "Expirement Three", userId);
 
