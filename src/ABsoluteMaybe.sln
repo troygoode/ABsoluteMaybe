@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABsoluteMaybe", "ABsoluteMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbsoluteMaybe.Tests", "AbsoluteMaybe.Tests\AbsoluteMaybe.Tests.csproj", "{D8092838-6FEA-464E-9DCE-22F2336AAFB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABsoluteMaybe.SampleWebsite.MVC2", "ABsoluteMaybe.SampleWebsite.MVC2\ABsoluteMaybe.SampleWebsite.MVC2.csproj", "{46CF860A-568F-44B0-BEDE-45372C5C8D64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{D8092838-6FEA-464E-9DCE-22F2336AAFB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8092838-6FEA-464E-9DCE-22F2336AAFB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8092838-6FEA-464E-9DCE-22F2336AAFB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46CF860A-568F-44B0-BEDE-45372C5C8D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46CF860A-568F-44B0-BEDE-45372C5C8D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46CF860A-568F-44B0-BEDE-45372C5C8D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46CF860A-568F-44B0-BEDE-45372C5C8D64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

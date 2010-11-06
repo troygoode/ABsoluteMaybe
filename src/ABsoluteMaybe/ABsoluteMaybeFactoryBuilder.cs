@@ -9,7 +9,7 @@ using ABsoluteMaybe.UserFiltering;
 
 namespace ABsoluteMaybe
 {
-	public class AbsoluteMaybeFactoryBuilder
+	public class ABsoluteMaybeFactoryBuilder
 	{
 		private readonly IList<Func<IUserFilter>> _userFilterFactories = new List<Func<IUserFilter>>
 		                                                                 	{
@@ -21,47 +21,47 @@ namespace ABsoluteMaybe
 		private Func<IOptionSerializer> _optionSerializerFactory = () => new ToStringOptionSerializer();
 		private Func<IUserIdentification> _userIdentificationFactory = () => new IpAddressUserIdentification();
 
-		public AbsoluteMaybeFactoryBuilder(string pathToXmlStorage)
+		public ABsoluteMaybeFactoryBuilder(string pathToXmlStorage)
 			: this(() => new XmlExpirementRepository(pathToXmlStorage))
 		{
 		}
 
-		public AbsoluteMaybeFactoryBuilder(Func<IExpirementRepository> expirementRepositoryFactory)
+		public ABsoluteMaybeFactoryBuilder(Func<IExpirementRepository> expirementRepositoryFactory)
 		{
 			SetExpirementRepository(expirementRepositoryFactory);
 		}
 
-		public AbsoluteMaybeFactoryBuilder SetExpirementRepository(Func<IExpirementRepository> expirementRepositoryFactory)
+		public ABsoluteMaybeFactoryBuilder SetExpirementRepository(Func<IExpirementRepository> expirementRepositoryFactory)
 		{
 			_expirementRepositoryFactory = expirementRepositoryFactory;
 			return this;
 		}
 
-		public AbsoluteMaybeFactoryBuilder SetOptionChooser(Func<IOptionChooser> optionChooserFactory)
+		public ABsoluteMaybeFactoryBuilder SetOptionChooser(Func<IOptionChooser> optionChooserFactory)
 		{
 			_optionChooserFactory = optionChooserFactory;
 			return this;
 		}
 
-		public AbsoluteMaybeFactoryBuilder SetOptionSerializer(Func<IOptionSerializer> optionSerializerFactory)
+		public ABsoluteMaybeFactoryBuilder SetOptionSerializer(Func<IOptionSerializer> optionSerializerFactory)
 		{
 			_optionSerializerFactory = optionSerializerFactory;
 			return this;
 		}
 
-		public AbsoluteMaybeFactoryBuilder SetUserIdentification(Func<IUserIdentification> userIdentificationFactory)
+		public ABsoluteMaybeFactoryBuilder SetUserIdentification(Func<IUserIdentification> userIdentificationFactory)
 		{
 			_userIdentificationFactory = userIdentificationFactory;
 			return this;
 		}
 
-		public AbsoluteMaybeFactoryBuilder ClearUserFilters()
+		public ABsoluteMaybeFactoryBuilder ClearUserFilters()
 		{
 			_userFilterFactories.Clear();
 			return this;
 		}
 
-		public AbsoluteMaybeFactoryBuilder AddUserFilter(Func<IUserFilter> userFilterFactory)
+		public ABsoluteMaybeFactoryBuilder AddUserFilter(Func<IUserFilter> userFilterFactory)
 		{
 			_userFilterFactories.Add(userFilterFactory);
 			return this;
