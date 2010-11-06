@@ -60,10 +60,14 @@ namespace ABsoluteMaybe.Persistence
 			if (existingRecord != null)
 				return new ParticipationRecord
 				       	{
-				       		ExpirementName = expirementName,
 				       		UserIdentifier = existingRecord.Attribute("Id").Value,
 				       		AssignedOption = existingRecord.Value,
-				       		HasConverted = false
+				       		HasConverted = existingRecord.Attribute("HasConverted") == null
+				       		               	? false
+				       		               	: bool.Parse(existingRecord.Attribute("HasConverted").Value),
+				       		DateConverted = existingRecord.Attribute("DateConverted") == null
+				       		                	? (DateTime?) null
+				       		                	: DateTime.Parse(existingRecord.Attribute("DateConverted").Value)
 				       	};
 
 			var assignedOption = chooseAnOptionForUser();
@@ -74,7 +78,6 @@ namespace ABsoluteMaybe.Persistence
 			Save(xml);
 			return new ParticipationRecord
 			       	{
-			       		ExpirementName = expirementName,
 			       		UserIdentifier = userId,
 			       		AssignedOption = assignedOption,
 			       		HasConverted = false

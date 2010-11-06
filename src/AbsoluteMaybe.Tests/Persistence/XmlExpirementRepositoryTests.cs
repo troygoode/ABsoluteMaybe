@@ -312,7 +312,6 @@ namespace AbsoluteMaybe.Tests.Persistence
 			var result = _repo.GetOrCreateParticipationRecord(expirementName, () => assignedOption, userId);
 
 			//assert
-			result.ExpirementName.ShouldEqual(expirementName);
 			result.UserIdentifier.ShouldEqual(userId);
 			result.AssignedOption.ShouldEqual(assignedOption);
 
@@ -369,7 +368,6 @@ namespace AbsoluteMaybe.Tests.Persistence
 			var result = _repo.GetOrCreateParticipationRecord(expirementName, () => "Bar", userId);
 
 			//assert
-			result.ExpirementName.ShouldEqual(expirementName);
 			result.UserIdentifier.ShouldEqual(userId);
 			result.AssignedOption.ShouldEqual(assignedOption);
 
