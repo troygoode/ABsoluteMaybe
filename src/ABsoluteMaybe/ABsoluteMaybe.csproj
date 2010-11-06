@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ABsoluteMaybe.cs" />
+    <Compile Include="ABsoluteMaybeException.cs" />
     <Compile Include="AbsoluteMaybeFactoryBuilder.cs" />
     <Compile Include="Domain\Expirement.cs" />
     <Compile Include="DefaultABsoluteMaybe.cs" />

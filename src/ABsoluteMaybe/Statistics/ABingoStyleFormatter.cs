@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace ABsoluteMaybe.Statistics
@@ -29,7 +28,7 @@ namespace ABsoluteMaybe.Statistics
 			{
 				result = _statistics.Execute();
 			}
-			catch (Exception e)
+			catch (ABsoluteMaybeException e)
 			{
 				return e.Message;
 			}
