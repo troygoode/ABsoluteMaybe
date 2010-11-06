@@ -31,11 +31,11 @@ namespace ABsoluteMaybe
 		public T Test<T>(string expirementName,
 		                 IEnumerable<T> options)
 		{
-			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
-			var exp = _expirementRepository.GetOrCreateExpirement(expirementName, optionsAsStrings);
+			_expirementRepository.CreateExpirement(expirementName);
 
 			var userId = _userIdentification.Identity;
-			var participationRecord = _expirementRepository.GetOrCreateParticipationRecord(exp.Name, () => _optionChooser.Choose(optionsAsStrings), userId);
+			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
+			var participationRecord = _expirementRepository.GetOrCreateParticipationRecord(expirementName, () => _optionChooser.Choose(optionsAsStrings), userId);
 
 			return options.Single(option => _optionSerializer.Serialize(option) == participationRecord.AssignedOption);
 		}
