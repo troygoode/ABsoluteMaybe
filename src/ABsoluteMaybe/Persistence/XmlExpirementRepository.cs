@@ -24,13 +24,23 @@ namespace ABsoluteMaybe.Persistence
 
 		public void CreateExpirement(string expirementName)
 		{
+			CreateExpirement(expirementName, expirementName);
+		}
+
+		public void CreateExpirement(string expirementName, string conversionKeyword)
+		{
 			var xml = Load();
 
-			if (!xml.Root.Elements("Expirement").Any(x => x.Attribute("Name").Value == expirementName))
-				xml.Root.Add(new XElement("Expirement",
-				                          new XAttribute("Name", expirementName),
-				                          new XAttribute("Started", UtcNow)
-				             	));
+			if (xml.Root.Elements("Expirement").Any(x => x.Attribute("Name").Value == expirementName))
+				return;
+
+			var exp = new XElement("Expirement",
+			                       new XAttribute("Name", expirementName),
+			                       new XAttribute("Started", UtcNow)
+				);
+			if(expirementName != conversionKeyword)
+				exp.Add(new XAttribute("ConversionKeyword", conversionKeyword));
+			xml.Root.Add(exp);
 
 			Save(xml);
 		}
@@ -71,21 +81,24 @@ namespace ABsoluteMaybe.Persistence
 			       	};
 		}
 
-		public void Convert(string expirementName,
+		public void Convert(string conversionKeyword,
 		                    string userId)
 		{
 			var xml = Load();
 
-			var expirement = xml.Root.Elements("Expirement").Single(x => x.Attribute("Name").Value == expirementName);
-			var participants = expirement.Element("Participants");
-			var participant = participants.Elements("Participant").Single(x => x.Attribute("Id").Value == userId);
-
-			if (participant.Attribute("HasConverted") != null)
-				return;
-
-			participant.Add(new XAttribute("HasConverted", true));
-			participant.Add(new XAttribute("DateConverted", UtcNow));
-
+			var utcNow = UtcNow;
+			var expirements = xml.Root.Elements("Expirement")
+				.Where(x =>
+				       x.Attribute("Name").Value == conversionKeyword ||
+				       (x.Attribute("ConversionKeyword") != null && x.Attribute("ConversionKeyword").Value == conversionKeyword));
+			foreach (var participant in expirements
+				.Select(expirement => expirement.Element("Participants"))
+				.Select(participants => participants.Elements("Participant").Single(x => x.Attribute("Id").Value == userId))
+				.Where(participant => participant.Attribute("HasConverted") == null))
+			{
+				participant.Add(new XAttribute("HasConverted", true));
+				participant.Add(new XAttribute("DateConverted", utcNow));
+			}
 			Save(xml);
 		}
 

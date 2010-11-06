@@ -7,21 +7,21 @@ namespace ABsoluteMaybe
 	{
 		public static Func<IABsoluteMaybe> ABsoluteMaybeFactory = () => null;
 
-		public static T Test<T>(string expirementName, IEnumerable<T> options)
+		public static T Test<T>(string expirementName, string conversionKeyword, IEnumerable<T> options)
 		{
 			var ab = ABsoluteMaybeFactory();
-			return ab.Test(expirementName, options);
+			return ab.Test(expirementName, conversionKeyword, options);
 		}
 
-		public static bool Test(string expirementName)
+		public static bool Test(string expirementName, string conversionKeyword)
 		{
-			return Test(expirementName, new[] {false, true});
+			return Test(expirementName, conversionKeyword, new[] {false, true});
 		}
 
-		public static void Convert(string expirementName)
+		public static void Convert(string conversionKeyword)
 		{
 			var ab = ABsoluteMaybeFactory();
-			ab.Convert(expirementName);
+			ab.Convert(conversionKeyword);
 		}
 	}
 }

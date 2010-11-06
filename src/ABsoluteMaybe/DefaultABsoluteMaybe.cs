@@ -29,9 +29,10 @@ namespace ABsoluteMaybe
 		#region IABsoluteMaybe Members
 
 		public T Test<T>(string expirementName,
+		                 string conversionKeyword,
 		                 IEnumerable<T> options)
 		{
-			_expirementRepository.CreateExpirement(expirementName);
+			_expirementRepository.CreateExpirement(expirementName, conversionKeyword);
 
 			var userId = _userIdentification.Identity;
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
@@ -40,10 +41,10 @@ namespace ABsoluteMaybe
 			return options.Single(option => _optionSerializer.Serialize(option) == participationRecord.AssignedOption);
 		}
 
-		public void Convert(string expirementName)
+		public void Convert(string conversionKeyword)
 		{
 			var userId = _userIdentification.Identity;
-			_expirementRepository.Convert(expirementName, userId);
+			_expirementRepository.Convert(conversionKeyword, userId);
 		}
 
 		#endregion

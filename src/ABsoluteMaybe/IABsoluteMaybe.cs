@@ -4,7 +4,7 @@ namespace ABsoluteMaybe
 {
 	public interface IABsoluteMaybe
 	{
-		T Test<T>(string expirementName, IEnumerable<T> options);
-		void Convert(string expirementName);
+		T Test<T>(string expirementName, string conversionKeyword, IEnumerable<T> options);
+		void Convert(string conversionKeyword);
 	}
 }
