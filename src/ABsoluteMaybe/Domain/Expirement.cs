@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ABsoluteMaybe
+namespace ABsoluteMaybe.Domain
 {
 	public class Expirement
 	{

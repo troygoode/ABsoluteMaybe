@@ -1,35 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ABsoluteMaybe.Identification;
+using ABsoluteMaybe.Persistence;
+using ABsoluteMaybe.Serialization;
 
 namespace ABsoluteMaybe
 {
 	public class DefaultABsoluteMaybe : IABsoluteMaybe
 	{
-		private readonly ITestsRepository _testsRepository;
-		private readonly IUserIdentificationStrategy _userIdentificationStrategy;
+		private readonly IExpirementRepository _expirementRepository;
+		private readonly IOptionSerializer _optionSerializer;
+		private readonly IUserIdentification _userIdentification;
 
-		public DefaultABsoluteMaybe(IUserIdentificationStrategy userIdentificationStrategy, ITestsRepository testsRepository)
+		public DefaultABsoluteMaybe(IExpirementRepository expirementRepository,
+		                            IOptionSerializer optionSerializer,
+		                            IUserIdentification userIdentification
+			)
 		{
-			_userIdentificationStrategy = userIdentificationStrategy;
-			_testsRepository = testsRepository;
+			_expirementRepository = expirementRepository;
+			_optionSerializer = optionSerializer;
+			_userIdentification = userIdentification;
 		}
 
 		#region IABsoluteMaybe Members
 
-		public T Test<T>(string testName, IEnumerable<T> alternatives)
+		public T Test<T>(string expirementName, IEnumerable<T> options)
 		{
-			//1 - Record test if it doesn't exist yet.
-			//2 - Create participation record for user if he doesn't have one yet.
-			//3 - return option assigned to user
+			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
+			var exp = _expirementRepository.GetOrCreateExpirement(expirementName, optionsAsStrings);
 
-			//var userId = _userIdentificationStrategy.Identity;
-			throw new NotImplementedException();
+			var userId = _userIdentification.Identity;
+			var participationRecord = _expirementRepository.GetOrCreateParticipationRecord(exp, userId);
+
+			return options.Single(option => _optionSerializer.Serialize(option) == participationRecord.AssignedOption);
 		}
 
-		public void Convert(string testName)
+		public void Convert(string expirementName)
 		{
-			var userId = _userIdentificationStrategy.Identity;
-			_testsRepository.Convert(testName, userId);
+			var userId = _userIdentification.Identity;
+			_expirementRepository.Convert(expirementName, userId);
 		}
 
 		#endregion

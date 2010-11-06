@@ -33,21 +33,24 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ABsoluteMaybe.cs" />
-    <Compile Include="Expirement.cs" />
+    <Compile Include="AbsoluteMaybeFactoryBuilder.cs" />
+    <Compile Include="Domain\Expirement.cs" />
     <Compile Include="DefaultABsoluteMaybe.cs" />
+    <Compile Include="Domain\ParticipationRecord.cs" />
     <Compile Include="IABsoluteMaybe.cs" />
-    <Compile Include="IUserIdentificationStrategy.cs" />
-    <Compile Include="ITestsRepository.cs" />
-    <Compile Include="ParticipationRecord.cs" />
+    <Compile Include="Identification\IpAddressUserIdentification.cs" />
+    <Compile Include="Identification\IUserIdentification.cs" />
+    <Compile Include="Persistence\IExpirementRepository.cs" />
+    <Compile Include="Persistence\XmlExpirementRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\IOptionSerializer.cs" />
+    <Compile Include="Serialization\ToStringOptionSerializer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

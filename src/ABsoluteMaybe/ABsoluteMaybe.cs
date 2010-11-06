@@ -5,21 +5,23 @@ namespace ABsoluteMaybe
 {
 	public static class ABsoluteMaybe
 	{
-		public static Func<IABsoluteMaybe> ABsoluteMaybeFactory = () => new DefaultABsoluteMaybe(null);
+		public static Func<IABsoluteMaybe> ABsoluteMaybeFactory = () => null;
 
-		public static T Test<T>(string testName, IEnumerable<T> alternatives)
+		public static T Test<T>(string expirementName, IEnumerable<T> options)
 		{
-			return ABsoluteMaybeFactory().Test(testName, alternatives);
+			var ab = ABsoluteMaybeFactory();
+			return ab.Test(expirementName, options);
 		}
 
-		public static bool Test(string testName)
+		public static bool Test(string expirementName)
 		{
-			return Test(testName, new[] {false, true});
+			return Test(expirementName, new[] {false, true});
 		}
 
-		public static void Convert(string testName)
+		public static void Convert(string expirementName)
 		{
-			ABsoluteMaybeFactory().Convert(testName);
+			var ab = ABsoluteMaybeFactory();
+			ab.Convert(expirementName);
 		}
 	}
 }

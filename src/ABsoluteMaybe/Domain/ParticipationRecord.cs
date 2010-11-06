@@ -1,4 +1,4 @@
-﻿namespace ABsoluteMaybe
+﻿namespace ABsoluteMaybe.Domain
 {
 	public class ParticipationRecord
 	{
