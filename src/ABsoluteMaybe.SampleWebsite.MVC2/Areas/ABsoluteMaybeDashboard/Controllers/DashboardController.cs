@@ -26,12 +26,28 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 		{
 			var experiments = _experimentRepository
 				.FindAllExperiments()
-				.Select(exp => new ExperimentViewModel
-				               	{
-				               		Experiment = exp,
-									Results = new ABingoStyleFormatter(new ABsoluteMaybeStatistics(exp)).ToString()
-				               	});
-			return View(experiments);
+				.Select(exp => new DashboardIndexViewModel.ExperimentViewModel
+								{
+									Name = exp.Name,
+									Results = new ABingoStyleFormatter(new ABsoluteMaybeStatistics(exp)).ToString(),
+									TotalParticipants = exp.Options.Sum(o => o.Participants),
+									TotalConversions = exp.Options.Sum(o => o.Conversions),
+									Options = exp.Options.Select(o =>
+										new DashboardIndexViewModel.ExperimentViewModel.OptionViewModel
+											{
+												Name = o.Name,
+												Participants = o.Participants,
+												Conversions = o.Conversions,
+												ConversionRate = o.Participants > 0
+													? (double)o.Conversions / o.Participants
+													: (double?)null
+											}
+									)
+								});
+			return View(new DashboardIndexViewModel
+			            	{
+			            		Experiments = experiments
+			            	});
 		}
 	}
 }

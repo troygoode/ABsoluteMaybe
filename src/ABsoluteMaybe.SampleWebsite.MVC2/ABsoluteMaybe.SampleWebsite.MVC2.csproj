@@ -68,7 +68,7 @@
     <Compile Include="Areas\ABsoluteMaybeDashboard\ABsoluteMaybeConfiguration.cs" />
     <Compile Include="Areas\ABsoluteMaybeDashboard\ABsoluteMaybeDashboardAreaRegistration.cs" />
     <Compile Include="Areas\ABsoluteMaybeDashboard\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\ABsoluteMaybeDashboard\Models\ExperimentViewModel.cs" />
+    <Compile Include="Areas\ABsoluteMaybeDashboard\Models\DashboardIndexViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">

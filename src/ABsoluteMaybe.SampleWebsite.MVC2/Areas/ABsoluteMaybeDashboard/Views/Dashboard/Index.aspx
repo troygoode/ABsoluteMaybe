@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Models.ExperimentViewModel>>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="ViewPage<ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Models.DashboardIndexViewModel>" %>
 
 <asp:Content ID="title" ContentPlaceHolderID="TitleContent" runat="server">
 	ABsoluteMaybe Dashboard
@@ -9,9 +9,9 @@
 	<h2>ABsoluteMaybe Dashboard</h2>
 
 	<ul>
-	<% foreach (var experiment in Model) { %>
+	<% foreach (var experiment in Model.Experiments) { %>
 		<li>
-			<h3><%: experiment.Experiment.Name %></h3>
+			<h3><%: experiment.Name %></h3>
 			<table>
 				<thead>
 					<tr>
@@ -21,19 +21,19 @@
 					</tr>
 				</thead>
 				<tbody>
-				<% foreach (var option in experiment.Experiment.Options) { %>
+				<% foreach (var option in experiment.Options) { %>
 					<tr>
 						<td><%: option.Name %></td>
 						<td><%: option.Participants %></td>
-						<td><%: option.Conversions %> <%: option.Participants == 0 ? "" : (option.Conversions / option.Participants).ToString("(#0.##%)")%></td>
+						<td><%: option.Conversions %> <%: option.ConversionRate == null ? "" : option.ConversionRate.Value.ToString("(#0.##%)") %></td>
 					</tr>
 				<% } %>
 				</tbody>
 				<tfoot class="total">
 					<tr>
 						<td>Total</td>
-						<td><%: experiment.Experiment.Options.Sum(opt=> opt.Participants) %></td>
-						<td><%: experiment.Experiment.Options.Sum(opt=> opt.Conversions) %></td>
+						<td><%: experiment.TotalParticipants %></td>
+						<td><%: experiment.TotalConversions %></td>
 					</tr>
 				</tfoot>
 			</table>
