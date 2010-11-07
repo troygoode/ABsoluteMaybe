@@ -1,5 +1,5 @@
 # What is this?
-An [A/B testing](http://en.wikipedia.org/wiki/A/B_testing) library for ASP.Net / ASP.Net MVC based on the Rails [A/Bingo](http://www.bingocardcreator.com/abingo) library.
+An [A/B testing](http://en.wikipedia.org/wiki/A/B_testing) library for ASP.Net / ASP.Net MVC based on the [A/Bingo](http://www.bingocardcreator.com/abingo) library for Rails.
 
 # Example
 Let's say your boss comes up to you and says "Hey, I think we should replace the 'Register' link on our homepage with this sweet animated GIF my daughter created in her middle school's web design class. It'll attract more attention and get us more users!" You of course immediately suspect that it will drive away far more users than it will attract, but how do you know for sure? Simple, we A/B test it!
@@ -31,7 +31,7 @@ You might've noticed that we don't have to tell ABsoluteMaybe whether the button
 
 That is all we had to do to create our A/B test. Now we push the code to production and wait a while for the results to roll in. A couple days later we check out the included ABsoluteMabye dashboard and look at the status of our test:
 
-**huge_animated_register_button**
+**Experiment: huge_animated_register_button**
 <table>
 	<tr>
 		<td><strong>Option</strong></td>
@@ -46,15 +46,15 @@ That is all we had to do to create our A/B test. Now we push the code to product
 		<td>[End experiment, picking this.]</td>
 	</tr>
 	<tr>
-		<td>True</td>
+		<td>False</td>
 		<td>100</td>
 		<td>30 (30%)</td>
 		<td>[End experiment, picking this.]</td>
 	</tr>
 	<tr>
 		<td><strong>Total</strong></td>
-		<td>200</td>
-		<td>30</td>
+		<td><strong>200</strong></td>
+		<td><strong>30</strong></td>
 		<td> </td>
 	</tr>
 </table>
@@ -63,10 +63,10 @@ That is all we had to do to create our A/B test. Now we push the code to product
 Woohoo! The annoying blinking button was the loser after all. You print the dashboard page out and show it to your boss, who asks for you to switch back to the 'Register' link as quickly as possible. You tell him that might take a few hours, walk back to your desk and click "[End experiment, picking this.]" on the "False" option of the experiment and spend the rest of our day down at the local pub.
 
 # Getting Started
-...
+*Coming soon.*
 
 # Contributing
-...
+Contributions are welcome, fork away.
 
 # Credits
 ABsoluteMaybe is modeled closely after [Patrick McKenzie](http://twitter.com/patio11)'s [A/Bingo](http://www.bingocardcreator.com/abingo) library for Ruby on Rails. Some code (namely the z-score/p-value calculation) was ported from A/Bingo to .Net by [Jason Kester](http://twitter.com/#!/jasonkester) for his [FairlyCertain](http://www.fairtutor.com/fairlycertain/) library.
