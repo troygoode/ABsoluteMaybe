@@ -34,25 +34,25 @@ That is all we had to do to create our A/B test. Now we push the code to product
 **huge_animated_register_button**
 <table>
 	<tr>
-		<td>**Option**</td>
-		<td>**Participants**</td>
-		<td>**Conversions**</td>
+		<td><strong>Option</strong></td>
+		<td><strong>Participants</strong></td>
+		<td><strong>Conversions</strong></td>
 		<td> </td>
 	</tr>
 	<tr>
 		<td>True</td>
 		<td>100</td>
 		<td>15 (15%)</td>
-		<td><u>End experiment, picking this.</u></td>
+		<td>[End experiment, picking this.]</td>
 	</tr>
 	<tr>
 		<td>True</td>
 		<td>100</td>
 		<td>30 (30%)</td>
-		<td><u>End experiment, picking this.</u></td>
+		<td>[End experiment, picking this.]</td>
 	</tr>
 	<tr>
-		<td>**Total**</td>
+		<td><strong>Total</strong></td>
 		<td>200</td>
 		<td>30</td>
 		<td> </td>
@@ -60,7 +60,7 @@ That is all we had to do to create our A/B test. Now we push the code to product
 </table>
 *The best option you have is [False], which had 30 conversion from 100 participants (30%). The other option was [True], which had 15 conversion from 100 participants (15%). This difference is 99% likely to be statistically significant.*
 
-Woohoo! The annoying blinking button was the loser after all. You print the dashboard page out and show it to your boss, who asks for you to switch back to the 'Register' link as quickly as possible. You tell him that might take a few hours, walk back to your desk and click "End experiment, picking this." on the "False" option of the experiment and spend the rest of our day down at the local pub.
+Woohoo! The annoying blinking button was the loser after all. You print the dashboard page out and show it to your boss, who asks for you to switch back to the 'Register' link as quickly as possible. You tell him that might take a few hours, walk back to your desk and click "[End experiment, picking this.]" on the "False" option of the experiment and spend the rest of our day down at the local pub.
 
 # Getting Started
 ...
