@@ -8,8 +8,8 @@
     <ProjectGuid>{D8092838-6FEA-464E-9DCE-22F2336AAFB6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AbsoluteMaybe.Tests</RootNamespace>
-    <AssemblyName>AbsoluteMaybe.Tests</AssemblyName>
+    <RootNamespace>ABsoluteMaybe.Tests</RootNamespace>
+    <AssemblyName>ABsoluteMaybe.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

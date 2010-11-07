@@ -4,7 +4,7 @@ using ABsoluteMaybe.Domain;
 using NUnit.Framework;
 using Should;
 
-namespace AbsoluteMaybe.Tests.Domain
+namespace ABsoluteMaybe.Tests.Domain
 {
 	[TestFixture]
 	public class ExperimentTests

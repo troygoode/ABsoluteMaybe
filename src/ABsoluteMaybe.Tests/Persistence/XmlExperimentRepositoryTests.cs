@@ -6,7 +6,7 @@ using ABsoluteMaybe.Persistence;
 using NUnit.Framework;
 using Should;
 
-namespace AbsoluteMaybe.Tests.Persistence
+namespace ABsoluteMaybe.Tests.Persistence
 {
 	[TestFixture]
 	public class XmlExperimentRepositoryTests

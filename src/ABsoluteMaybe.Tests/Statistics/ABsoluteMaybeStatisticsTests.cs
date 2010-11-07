@@ -5,7 +5,7 @@ using ABsoluteMaybe.Statistics;
 using NUnit.Framework;
 using Should;
 
-namespace AbsoluteMaybe.Tests.Statistics
+namespace ABsoluteMaybe.Tests.Statistics
 {
 	[TestFixture]
 	public class ABsoluteMaybeStatisticsTests
