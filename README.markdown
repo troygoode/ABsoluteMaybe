@@ -9,7 +9,7 @@ First, let's go ahead and add the blinking button image to our homepage...
 *Views/Home/Index.aspx:*
 <pre>
 &lt;% if(ABsoluteMaybe.Test("huge_animated_register_button")){ %&gt;
-	&lt;a href="&lt;% =Url.Action("Register", "Account) %&gt;"&gt;&lt;img src="/Content/HuuuuugeAnimatedRegisterButton.gif" /&gt;&lt;/a&gt;
+	&lt;a href="&lt;%= Url.Action("Register", "Account) %&gt;"&gt;&lt;img src="/Content/HuuuuugeAnimatedRegisterButton.gif" /&gt;&lt;/a&gt;
 &lt;% }else{ %&gt;
 	&lt;%: Html.ActionLink("Click here to register!", "Register", "Account") %&gt;
 &lt;% } %&gt;
@@ -29,7 +29,7 @@ public ActionResult Register(){
 
 You might've noticed that we don't have to tell ABsoluteMaybe whether the button or link was clicked. This is because when **ABsoluteMaybe.Test** was executed above, one of the two options was randomly assigned to the current user (who is tracked via a cookie by default). This also means that no matter how many times a user visits the homepage, they'll always see the same thing (in other words, refreshing the homepage won't alternate between the button and link).
 
-That is all we had to do to create our A/B test. Now we push the code to production and wait a while for the results to roll in. A couple days later we check out the included ABsoluteMabye dashboard and look at the status of our test:
+That is all we had to do to create our A/B test. Now we push the code to production and wait a while for the results to roll in. A couple days later we check out the included ABsoluteMaybe dashboard and look at the status of our test:
 
 **Experiment: huge_animated_register_button**
 <table>
@@ -64,6 +64,69 @@ Woohoo! The annoying blinking button was the loser after all. You print the dash
 
 # Getting Started
 *Coming soon.*
+
+# Additional Examples
+
+## Conversion Keywords
+Sometimes you want to mark multiple experiments as having a conversion at once. For example, you might have two experiments on two different pages that both are intended to increase the number of users that make it to your purchase funnel: one that shows a button on your site's sidebar and one that shows a different button in a popup window...
+
+*Views/Shared/Sidebar.aspx*
+<pre>
+&lt;% if(ABsoluteMaybe.Test("sidebar_checkout_button", "LoadedCheckoutScreen")){%&gt;...&lt;% } %&gt;
+</pre>
+
+*Views/Shared/CheckoutPopupWindow.aspx*
+<pre>
+&lt;% if(ABsoluteMaybe.Test("popup_checkout_button", "LoadedCheckoutScreen")){%&gt;...&lt;% } %&gt;
+</pre>
+
+In the above two tests we've not only supplied the name of the experiment, but also tied the experiments to a conversion keyword ("LoadedCheckoutScreen"). On the checkout action we can now add the following code to convert both experiments:
+
+*Controllers/Checkout.cs*
+<pre>
+public ActionResult Checkout()
+{
+	ABsoluteMaybe.Convert("LoadedCheckoutScreen");
+	return View();
+}
+</pre>
+
+*Note: Running multiple experiments at once that interact with the same or closely related systems may cause you to receive less accurate results. For more information ask your local friendly statistician.*
+
+## Non-boolean Options
+
+By default an ABsoluteMaybe experiment is created with two options: true and false. You can also pass an array of values into the **.Test** method to use your own values instead. In this case we're testing to see if free shipping will improve our sales funnel. Note that in this case the return value of **.Test** is now a decimal rather than the usual boolean, and we were able to pass it right down to the view via our viewmodel.
+
+*Controllers/Checkout.cs*
+<pre>
+public ActionResult Checkout()
+{
+	return View(new CheckoutViewModel{
+		ProductsInCart = _shoppingCartRepository.FindByUser(_userId),
+		ShippingCost = ABsoluteMaybe.Test("shipping_costs", new[]{9.99m, 0m})
+	});
+}
+</pre>
+
+Converting non-boolean options works the same as any other:
+
+*Controllers/Checkout.cs*
+<pre>
+public ActionResult CheckoutPost(CheckoutViewModel form)
+{
+	ABsoluteMaybe.Convert("shipping_costs");
+	//snip
+	return RedirectToAction("ThankYou", "Checkout");
+}
+</pre>
+
+## More Than Two Options
+
+You can pass more than two values to the **.Test** method, but *please* note that doing so means that you will not receive a likelihood of statistical significance report on the Dashboard because math is hard.
+
+<pre>
+var shippingCost = ABsoluteMaybe.Test("shipping_costs", new[]{9.99m, 5.99m, 0m})
+</pre>
 
 # Contributing
 Contributions are welcome, fork away.
