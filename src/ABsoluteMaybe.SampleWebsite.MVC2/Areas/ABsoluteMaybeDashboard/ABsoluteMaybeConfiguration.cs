@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using ABsoluteMaybe.ShortCircuiting;
 
 namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard
 {
@@ -9,7 +10,9 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard
 		public static void Configure()
 		{
 			var pathToXmlFile = HttpContext.Current.Server.MapPath(StoragePath);
-			ABsoluteMaybe.ABsoluteMaybeFactory = new ABsoluteMaybeFactoryBuilder(pathToXmlFile)
+			ABsoluteMaybe.ABsoluteMaybeFactory = ABsoluteMaybeFactoryBuilder
+				.WithXmlRepository(pathToXmlFile)
+				.AddShortCircuiter(() => new QueryStringShortCircuiter())
 				.Build();
 		}
 	}

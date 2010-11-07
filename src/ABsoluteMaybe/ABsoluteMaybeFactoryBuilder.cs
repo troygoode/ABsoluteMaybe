@@ -26,14 +26,14 @@ namespace ABsoluteMaybe
 		private Func<IOptionSerializer> _optionSerializerFactory = () => new ToStringOptionSerializer();
 		private Func<IUserIdentification> _userIdentificationFactory = () => new CookieUserIdentification();
 
-		public ABsoluteMaybeFactoryBuilder(string pathToXmlStorage)
-			: this(() => new XmlExperimentRepository(pathToXmlStorage))
+		public static ABsoluteMaybeFactoryBuilder WithXmlRepository(string pathToXmlStorageFile)
 		{
+			return new ABsoluteMaybeFactoryBuilder()
+				.SetExperimentRepository(()=> new XmlExperimentRepository(pathToXmlStorageFile));
 		}
 
-		public ABsoluteMaybeFactoryBuilder(Func<IExperimentRepository> experimentRepositoryFactory)
+		private ABsoluteMaybeFactoryBuilder()
 		{
-			SetExperimentRepository(experimentRepositoryFactory);
 		}
 
 		public ABsoluteMaybeFactoryBuilder SetExperimentRepository(Func<IExperimentRepository> experimentRepositoryFactory)
