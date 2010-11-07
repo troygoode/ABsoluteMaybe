@@ -19,7 +19,7 @@ namespace ABsoluteMaybe
 		private Func<IExperimentRepository> _experimentRepositoryFactory;
 		private Func<IOptionChooser> _optionChooserFactory = () => new RandomOptionChooser();
 		private Func<IOptionSerializer> _optionSerializerFactory = () => new ToStringOptionSerializer();
-		private Func<IUserIdentification> _userIdentificationFactory = () => new IpAddressUserIdentification();
+		private Func<IUserIdentification> _userIdentificationFactory = () => new CookieUserIdentification();
 
 		public ABsoluteMaybeFactoryBuilder(string pathToXmlStorage)
 			: this(() => new XmlExperimentRepository(pathToXmlStorage))

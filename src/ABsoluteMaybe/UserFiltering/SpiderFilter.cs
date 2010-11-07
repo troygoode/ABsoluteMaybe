@@ -30,13 +30,16 @@ namespace ABsoluteMaybe.UserFiltering
 			_bots = bots;
 		}
 
+		protected virtual HttpContextBase Context
+		{
+			get { return new HttpContextWrapper(HttpContext.Current); }
+		}
+
 		#region IUserFilter Members
 
 		public bool FilterOut(string userId)
 		{
-			if (HttpContext.Current == null ||
-			    HttpContext.Current.Request == null ||
-			    string.IsNullOrWhiteSpace(HttpContext.Current.Request.UserAgent))
+			if (string.IsNullOrWhiteSpace(Context.Request.UserAgent))
 				return true;
 
 			var userAgent = HttpContext.Current.Request.UserAgent;

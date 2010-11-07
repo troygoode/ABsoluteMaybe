@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -45,6 +46,7 @@
     <Compile Include="DefaultABsoluteMaybe.cs" />
     <Compile Include="Domain\ParticipationRecord.cs" />
     <Compile Include="IABsoluteMaybe.cs" />
+    <Compile Include="Identification\CookieUserIdentification.cs" />
     <Compile Include="Identification\IpAddressUserIdentification.cs" />
     <Compile Include="Identification\IUserIdentification.cs" />
     <Compile Include="OptionChoosing\IOptionChooser.cs" />
