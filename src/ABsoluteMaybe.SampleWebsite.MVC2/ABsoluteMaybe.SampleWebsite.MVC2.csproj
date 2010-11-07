@@ -116,9 +116,7 @@
   <ItemGroup>
     <Content Include="Areas\ABsoluteMaybeDashboard\Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\ABsoluteMaybeDashboard\Views\Shared\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ABsoluteMaybe\ABsoluteMaybe.csproj">
       <Project>{35CEBAA5-CCCB-4301-B1D2-38CF28C0E7A5}</Project>

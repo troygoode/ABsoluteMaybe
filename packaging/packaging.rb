@@ -23,23 +23,39 @@ exec :package_core => :prepare_package_core do |cmd|
 end
 
 task :prepare_package_mvc => :release do
-  output_directory_mvc_lib = './packaging/ABsoluteMaybe.Mvc/lib/40/'
-  output_directory_mvc_content_controllers = './packaging/EngageNet.Mvc/content/Controllers/'
-  output_directory_mvc_content_views = './packaging/EngageNet.Mvc/content/Views/Engage/'
-  FileUtils.mkdir_p output_directory_mvc_lib
+  output_directory_mvc_content_area = './packaging/ABsoluteMaybe.Mvc/content/Areas/ABsoluteMaybeDashboard/'
+  output_directory_mvc_content_controllers = './packaging/ABsoluteMaybe.Mvc/content/Areas/ABsoluteMaybeDashboard/Controllers/'
+  output_directory_mvc_content_models = './packaging/ABsoluteMaybe.Mvc/content/Areas/ABsoluteMaybeDashboard/Models/'
+  output_directory_mvc_content_views = './packaging/ABsoluteMaybe.Mvc/content/Areas/ABsoluteMaybeDashboard/Views/Dashboard/'
+  FileUtils.mkdir_p output_directory_mvc_content_area
   FileUtils.mkdir_p output_directory_mvc_content_controllers
+  FileUtils.mkdir_p output_directory_mvc_content_models
   FileUtils.mkdir_p output_directory_mvc_content_views
 
-  copy_files './src/EngageNet.Mvc/bin/Release/', output_directory_mvc_lib, 'EngageNet.Mvc', ['dll', 'pdb', 'xml']
-  FileUtils.cp './src/EngageNet.SampleWebsiteMvc2/Controllers/EngageController.cs',
-               output_directory_mvc_content_controllers + 'EngageController.cs.pp'
-  copy_files './src/EngageNet.SampleWebsiteMvc2/Views/Engage/', output_directory_mvc_content_views, 'LogOn', ['aspx']
-  copy_files './src/EngageNet.SampleWebsiteMvc2/Views/Engage/', output_directory_mvc_content_views, 'LogOnCancelled', ['aspx']
-  copy_files './src/EngageNet.SampleWebsiteMvc2/Views/Engage/', output_directory_mvc_content_views, 'LogOnSuccess', ['aspx']
+  FileUtils.cp './src/ABsoluteMaybe.SampleWebsite.MVC2/Areas/ABsoluteMaybeDashboard/Controllers/DashboardController.cs',
+               output_directory_mvc_content_controllers + 'DashboardController.cs.pp'
+  FileUtils.cp './src/ABsoluteMaybe.SampleWebsite.MVC2/Areas/ABsoluteMaybeDashboard/Models/DashboardIndexViewModel.cs',
+               output_directory_mvc_content_models + 'DashboardIndexViewModel.cs.pp'
+  FileUtils.cp './src/ABsoluteMaybe.SampleWebsite.MVC2/Areas/ABsoluteMaybeDashboard/Views/Web.config',
+               output_directory_mvc_content_views + '../Web.config'
+  FileUtils.cp './src/ABsoluteMaybe.SampleWebsite.MVC2/Areas/ABsoluteMaybeDashboard/Views/Dashboard/Index.aspx',
+               output_directory_mvc_content_views + 'Index.aspx.pp'
+  FileUtils.cp './src/ABsoluteMaybe.SampleWebsite.MVC2/Areas/ABsoluteMaybeDashboard/ABsoluteMaybeConfiguration.cs',
+               output_directory_mvc_content_area + 'ABsoluteMaybeConfiguration.cs.pp'
+  FileUtils.cp './src/ABsoluteMaybe.SampleWebsite.MVC2/Areas/ABsoluteMaybeDashboard/ABsoluteMaybeDashboardAreaRegistration.cs',
+               output_directory_mvc_content_area + 'ABsoluteMaybeDashboardAreaRegistration.cs.pp'
   
-  text = File.read output_directory_mvc_content_controllers + 'EngageController.cs.pp'
-  File.open output_directory_mvc_content_controllers + 'EngageController.cs.pp', 'w' do |file|
-  	file.puts text.gsub /EngageNet\.SampleWebsiteMvc2/, '$rootnamespace$'
+  replace_namespace output_directory_mvc_content_area + 'ABsoluteMaybeConfiguration.cs.pp'
+  replace_namespace output_directory_mvc_content_area + 'ABsoluteMaybeDashboardAreaRegistration.cs.pp'
+  replace_namespace output_directory_mvc_content_controllers + 'DashboardController.cs.pp'
+  replace_namespace output_directory_mvc_content_models + 'DashboardIndexViewModel.cs.pp'
+  replace_namespace output_directory_mvc_content_views + 'Index.aspx.pp'
+end
+
+def replace_namespace(file_path)
+  text = File.read file_path
+  File.open file_path, 'w' do |file|
+  	file.puts text.gsub /ABsoluteMaybe\.SampleWebsite\.MVC2/, '$rootnamespace$'
   end
 end
 
