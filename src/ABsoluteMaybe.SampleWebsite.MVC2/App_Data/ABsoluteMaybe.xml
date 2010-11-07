@@ -18,6 +18,7 @@
     <Participants>
       <Participant Id="127.0.0.1"><![CDATA[True]]></Participant>
       <Participant Id="65905F18FB584A4362B7B426ACD10345"><![CDATA[False]]></Participant>
+      <Participant Id="788E6F27DA1BC4136552AAB592239CFB"><![CDATA[True]]></Participant>
     </Participants>
   </Experiment>
   <Experiment Name="Free Shipping" Started="2010-11-06T21:19:46.053711Z" ConversionKeyword="Purchased Bumper Sticker">

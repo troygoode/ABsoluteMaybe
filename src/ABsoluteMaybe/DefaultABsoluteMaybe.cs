@@ -4,6 +4,7 @@ using ABsoluteMaybe.Identification;
 using ABsoluteMaybe.OptionChoosing;
 using ABsoluteMaybe.Persistence;
 using ABsoluteMaybe.Serialization;
+using ABsoluteMaybe.ShortCircuiting;
 using ABsoluteMaybe.UserFiltering;
 
 namespace ABsoluteMaybe
@@ -13,21 +14,24 @@ namespace ABsoluteMaybe
 		private readonly IExperimentRepository _experimentRepository;
 		private readonly IOptionChooser _optionChooser;
 		private readonly IOptionSerializer _optionSerializer;
+		private readonly IEnumerable<IShortCircuiter> _shortCircuiters;
 		private readonly IEnumerable<IUserFilter> _userFilters;
 		private readonly IUserIdentification _userIdentification;
 
 		public DefaultABsoluteMaybe(IExperimentRepository experimentRepository,
 		                            IOptionChooser optionChooser,
 		                            IOptionSerializer optionSerializer,
-		                            IUserIdentification userIdentification,
-		                            IEnumerable<IUserFilter> userFilters
+		                            IEnumerable<IShortCircuiter> shortCircuiters,
+		                            IEnumerable<IUserFilter> userFilters,
+		                            IUserIdentification userIdentification
 			)
 		{
 			_experimentRepository = experimentRepository;
 			_optionChooser = optionChooser;
 			_optionSerializer = optionSerializer;
-			_userIdentification = userIdentification;
+			_shortCircuiters = shortCircuiters;
 			_userFilters = userFilters;
+			_userIdentification = userIdentification;
 		}
 
 		#region IABsoluteMaybe Members
@@ -43,8 +47,9 @@ namespace ABsoluteMaybe
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
 			var experiment = _experimentRepository.GetOrCreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
 
-			if (optionsAsStrings.Contains(experiment.FinalOption))
-				return options.Single(option => _optionSerializer.Serialize(option) == experiment.FinalOption);
+			var shortCircuit = _shortCircuiters.Select(sc => sc.ShortCircuit(experiment, userId)).FirstOrDefault(scr=> scr.ShouldShortCircuitRequest);
+			if(shortCircuit != null)
+				return options.Single(option => _optionSerializer.Serialize(option) == shortCircuit.ShortCircuitTo);
 
 			var participationRecord = _experimentRepository.GetOrCreateParticipationRecord(experimentName,
 			                                                                               () =>

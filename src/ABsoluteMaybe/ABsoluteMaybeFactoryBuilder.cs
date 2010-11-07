@@ -5,6 +5,7 @@ using ABsoluteMaybe.Identification;
 using ABsoluteMaybe.OptionChoosing;
 using ABsoluteMaybe.Persistence;
 using ABsoluteMaybe.Serialization;
+using ABsoluteMaybe.ShortCircuiting;
 using ABsoluteMaybe.UserFiltering;
 
 namespace ABsoluteMaybe
@@ -14,6 +15,10 @@ namespace ABsoluteMaybe
 		private readonly IList<Func<IUserFilter>> _userFilterFactories = new List<Func<IUserFilter>>
 		                                                                 	{
 		                                                                 		() => new SpiderFilter()
+		                                                                 	};
+		private readonly IList<Func<IShortCircuiter>> _shortCircuitFactories = new List<Func<IShortCircuiter>>
+		                                                                 	{
+		                                                                 		() => new EndedExperimentShortCircuiter()
 		                                                                 	};
 
 		private Func<IExperimentRepository> _experimentRepositoryFactory;
@@ -67,6 +72,18 @@ namespace ABsoluteMaybe
 			return this;
 		}
 
+		public ABsoluteMaybeFactoryBuilder ClearShortCircuiters()
+		{
+			_shortCircuitFactories.Clear();
+			return this;
+		}
+
+		public ABsoluteMaybeFactoryBuilder AddShortCircuiter(Func<IShortCircuiter> shortCircuiterFactory)
+		{
+			_shortCircuitFactories.Add(shortCircuiterFactory);
+			return this;
+		}
+
 		public Func<IABsoluteMaybe> Build()
 		{
 			return
@@ -74,8 +91,10 @@ namespace ABsoluteMaybe
 				new DefaultABsoluteMaybe(_experimentRepositoryFactory(),
 				                         _optionChooserFactory(),
 				                         _optionSerializerFactory(),
-				                         _userIdentificationFactory(),
-				                         _userFilterFactories.Select(factory => factory()));
+										 _shortCircuitFactories.Select(factory => factory()),
+				                         _userFilterFactories.Select(factory => factory()),
+				                         _userIdentificationFactory()
+					);
 		}
 	}
 }
