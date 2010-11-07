@@ -23,7 +23,7 @@ namespace ABsoluteMaybe.Persistence
 
 		#region IExperimentRepository Members
 
-		public IEnumerable<Experiment> FindAllExperiments()
+		public IQueryable<Experiment> FindAllExperiments()
 		{
 			var xml = Load();
 
@@ -58,7 +58,7 @@ namespace ABsoluteMaybe.Persistence
 								exp.Element("PossibleOptionValues")
 									.Elements("Option")
 									.Select(pov => pov.Value)
-				               	));
+				               	)).AsQueryable();
 		}
 
 		public ExperimentSummary GetOrCreateExperiment(string experimentName, IEnumerable<string> options)
