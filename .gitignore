@@ -5,3 +5,4 @@
 _ReSharper*
 .DS_Store
 *.sdf
+TestResult.xml
