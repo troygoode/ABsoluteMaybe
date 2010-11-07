@@ -61,17 +61,25 @@ namespace ABsoluteMaybe.Persistence
 				               	));
 		}
 
-		public void CreateExperiment(string experimentName, IEnumerable<string> options)
+		public ExperimentSummary GetOrCreateExperiment(string experimentName, IEnumerable<string> options)
 		{
-			CreateExperiment(experimentName, experimentName, options);
+			return GetOrCreateExperiment(experimentName, experimentName, options);
 		}
 
-		public void CreateExperiment(string experimentName, string conversionKeyword, IEnumerable<string> options)
+		public ExperimentSummary GetOrCreateExperiment(string experimentName, string conversionKeyword, IEnumerable<string> options)
 		{
 			var xml = Load();
 
-			if (xml.Root.Elements("Experiment").Any(x => x.Attribute("Name").Value == experimentName))
-				return;
+			var existingExperiment = xml.Root.Elements("Experiment")
+				.SingleOrDefault(x => x.Attribute("Name").Value == experimentName);
+			if (existingExperiment != null)
+				return new ExperimentSummary(
+					existingExperiment.Attribute("Name").Value,
+					existingExperiment.Attribute("AlwaysUseOption") == null
+						? null
+						: existingExperiment.Attribute("AlwaysUseOption").Value,
+					existingExperiment.Attribute("Ended") != null
+					);
 
 			var exp = new XElement("Experiment",
 								   new XAttribute("Name", experimentName),
@@ -85,6 +93,8 @@ namespace ABsoluteMaybe.Persistence
 			xml.Root.Add(exp);
 
 			Save(xml);
+
+			return new ExperimentSummary(experimentName, null, false);
 		}
 
 		public ParticipationRecord GetOrCreateParticipationRecord(string experimentName,

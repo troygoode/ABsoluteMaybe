@@ -41,7 +41,10 @@ namespace ABsoluteMaybe
 				return options.First();
 
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
-			_experimentRepository.CreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
+			var experiment = _experimentRepository.GetOrCreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
+
+			if (optionsAsStrings.Contains(experiment.FinalOption))
+				return options.Single(option => _optionSerializer.Serialize(option) == experiment.FinalOption);
 
 			var participationRecord = _experimentRepository.GetOrCreateParticipationRecord(experimentName,
 			                                                                               () =>

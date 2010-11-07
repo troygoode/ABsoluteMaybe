@@ -63,14 +63,14 @@ namespace AbsoluteMaybe.Tests.Persistence
 			//arrange
 			_repo.Reset();
 			// - experiment one
-			_repo.CreateExperiment("Experiment1", new[] { "Experiment One", "Bar" });
+			_repo.GetOrCreateExperiment("Experiment1", new[] { "Experiment One", "Bar" });
 			_repo.GetOrCreateParticipationRecord("Experiment1", () => "Experiment One", "User 1");
 			// - experiment two
-			_repo.CreateExperiment("Experiment2", new[] { "Foo", "Experiment Two" });
+			_repo.GetOrCreateExperiment("Experiment2", new[] { "Foo", "Experiment Two" });
 			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", "User 1");
 			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", "User 2");
 			// - experiment three
-			_repo.CreateExperiment("Experiment3", new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment("Experiment3", new[] { "Foo", "Bar" });
 
 			//act
 			var result = _repo.FindAllExperiments();
@@ -89,13 +89,13 @@ namespace AbsoluteMaybe.Tests.Persistence
 			_repo.Reset();
 			const string userId = "USER_123";
 			// - experiment one
-			_repo.CreateExperiment("CORRECT_CONVERSION_KEYWORD", new[] { "Experiment One", "Bar" });
+			_repo.GetOrCreateExperiment("CORRECT_CONVERSION_KEYWORD", new[] { "Experiment One", "Bar" });
 			_repo.GetOrCreateParticipationRecord("CORRECT_CONVERSION_KEYWORD", () => "Experiment One", userId);
 			// - experiment two
-			_repo.CreateExperiment("Experiment2", new[] { "Foo", "Experiment Two" });
+			_repo.GetOrCreateExperiment("Experiment2", new[] { "Foo", "Experiment Two" });
 			_repo.GetOrCreateParticipationRecord("Experiment2", () => "Experiment Two", userId);
 			// - experiment three
-			_repo.CreateExperiment("Experiment3", "CORRECT_CONVERSION_KEYWORD", new[] { "Experiment Three", "Bar" });
+			_repo.GetOrCreateExperiment("Experiment3", "CORRECT_CONVERSION_KEYWORD", new[] { "Experiment Three", "Bar" });
 			_repo.GetOrCreateParticipationRecord("Experiment3", () => "Experiment Three", userId);
 
 			//act
@@ -131,7 +131,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//act
@@ -160,7 +160,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string convKeyword = "CONVERT_ON_ME";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, convKeyword, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, convKeyword, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => "Foo", userId);
 
 			//act
@@ -188,7 +188,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, new[]{ "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[]{ "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 			_repo.Convert(experimentName, userId);
 
@@ -219,7 +219,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 
 			//act
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -235,11 +235,11 @@ namespace AbsoluteMaybe.Tests.Persistence
 			_repo.Reset();
 			const string experimentName = "Existing Experiment";
 			const string convKeyOld = "CONVERT_ON_ME";
-			_repo.CreateExperiment(experimentName, convKeyOld, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, convKeyOld, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => "Foo", "USER_1");
 
 			//act
-			_repo.CreateExperiment(experimentName, "CONV_KEY_NEW", new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, "CONV_KEY_NEW", new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -265,7 +265,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string convKey = experimentName;
 
 			//act
-			_repo.CreateExperiment(experimentName, convKey, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, convKey, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -283,7 +283,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			_repo.UtcNowFactory = () => timestamp;
 
 			//act
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -304,7 +304,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 
 			//act
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -326,7 +326,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string convKey = "CONVERT_ON_ME";
 
 			//act
-			_repo.CreateExperiment(experimentName, convKey, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, convKey, new[] { "Foo", "Bar" });
 
 			//assert
 			var xml = XDocument.Parse(_repo.SavedXml);
@@ -352,7 +352,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//act
 			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
@@ -383,7 +383,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//act
 			var result = _repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
@@ -407,7 +407,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string assignedOption = "Foo";
 			const string userId = "USER_123";
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 			_repo.GetOrCreateParticipationRecord(experimentName, () => assignedOption, userId);
 
 			//act
@@ -438,7 +438,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string finalOption = "Bar";
 			_repo.Reset();
-			_repo.CreateExperiment(experimentName, new[]{ "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[]{ "Foo", "Bar" });
 			var timestamp = new DateTime(2008, 5, 24);
 			_repo.UtcNowFactory = () => timestamp;
 
@@ -461,7 +461,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string finalOption = "Bar";
 			_repo.Reset();
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 			var timestamp1 = new DateTime(2008, 5, 24);
 			_repo.UtcNowFactory = () => timestamp1;
 			_repo.EndExperiment(experimentName, finalOption);
@@ -485,7 +485,7 @@ namespace AbsoluteMaybe.Tests.Persistence
 			const string experimentName = "Troy's Experiment";
 			const string finalOption = "Bar";
 			_repo.Reset();
-			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			_repo.GetOrCreateExperiment(experimentName, new[] { "Foo", "Bar" });
 
 			//act
 			_repo.EndExperiment(experimentName, finalOption);

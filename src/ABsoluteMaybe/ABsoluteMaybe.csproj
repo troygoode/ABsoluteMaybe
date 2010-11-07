@@ -44,6 +44,7 @@
     <Compile Include="ABsoluteMaybeFactoryBuilder.cs" />
     <Compile Include="Domain\Experiment.cs" />
     <Compile Include="DefaultABsoluteMaybe.cs" />
+    <Compile Include="Domain\ExperimentSummary.cs" />
     <Compile Include="Domain\ParticipationRecord.cs" />
     <Compile Include="IABsoluteMaybe.cs" />
     <Compile Include="Identification\CookieUserIdentification.cs" />
