@@ -51,8 +51,8 @@ namespace ABsoluteMaybe
 				.AsQueryable()
 				.Select(sc => sc.ShortCircuit(experiment, userId))
 				.FirstOrDefault(scr => scr.ShouldShortCircuitRequest);
-			if(shortCircuit != null)
-				return options.Single(option => _optionSerializer.Serialize(option) == shortCircuit.ShortCircuitTo);
+			if (shortCircuit != null && optionsAsStrings.Contains(shortCircuit.ShortCircuitTo))
+				return options.SingleOrDefault(option => _optionSerializer.Serialize(option) == shortCircuit.ShortCircuitTo);
 
 			var participationRecord = _experimentRepository.GetOrCreateParticipationRecord(experimentName,
 			                                                                               () =>

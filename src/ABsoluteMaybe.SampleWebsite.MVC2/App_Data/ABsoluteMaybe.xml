@@ -18,4 +18,13 @@
       <Participant Id="788E6F27DA1BC4136552AAB592239CFB"><![CDATA[False]]></Participant>
     </Participants>
   </Experiment>
+  <Experiment Name="Free_Shipping" Started="2010-11-07T15:39:07.1975703Z" ConversionKeyword="Purchased Bumper Sticker">
+    <PossibleOptionValues>
+      <Option><![CDATA[0]]></Option>
+      <Option><![CDATA[9.99]]></Option>
+    </PossibleOptionValues>
+    <Participants>
+      <Participant Id="788E6F27DA1BC4136552AAB592239CFB"><![CDATA[0]]></Participant>
+    </Participants>
+  </Experiment>
 </Experiments>
