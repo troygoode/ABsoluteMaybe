@@ -39,7 +39,7 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 										new DashboardIndexViewModel.ExperimentViewModel.OptionViewModel
 											{
 												Name = o.Name,
-												IsFinalOption = o.Name == exp.FinalOption,
+												IsAlwaysUseOption = o.Name == exp.AlwaysUseOption,
 												Participants = o.Participants,
 												Conversions = o.Conversions,
 												ConversionRate = o.Participants > 0

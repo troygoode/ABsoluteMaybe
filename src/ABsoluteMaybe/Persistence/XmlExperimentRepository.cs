@@ -151,7 +151,7 @@ namespace ABsoluteMaybe.Persistence
 			Save(xml);
 		}
 
-		public void EndExperiment(string experimentName, string finalOption)
+		public void EndExperiment(string experimentName, string alwaysUseOption)
 		{
 			var xml = Load();
 
@@ -160,7 +160,7 @@ namespace ABsoluteMaybe.Persistence
 				return;
 
 			experiment.Add(new XAttribute("Ended", UtcNow));
-			experiment.Add(new XAttribute("AlwaysUseOption", finalOption));
+			experiment.Add(new XAttribute("AlwaysUseOption", alwaysUseOption));
 			Save(xml);
 		}
 

@@ -2,15 +2,15 @@
 {
 	public class ExperimentSummary
 	{
-		public ExperimentSummary(string name, string finalOption, bool isEnded)
+		public ExperimentSummary(string name, string alwaysUseOption, bool hasEnded)
 		{
 			Name = name;
-			FinalOption = finalOption;
-			IsEnded = isEnded;
+			AlwaysUseOption = alwaysUseOption;
+			HasEnded = hasEnded;
 		}
 
 		public string Name { get; private set; }
-		public string FinalOption { get; private set; }
-		public bool IsEnded { get; private set; }
+		public string AlwaysUseOption { get; private set; }
+		public bool HasEnded { get; private set; }
 	}
 }

@@ -8,8 +8,8 @@ namespace ABsoluteMaybe.ShortCircuiting
 
 		public ShortCircuitResult ShortCircuit(ExperimentSummary experimentSummary, string userId)
 		{
-			return experimentSummary.IsEnded
-				? new ShortCircuitResult(true, experimentSummary.FinalOption)
+			return experimentSummary.HasEnded
+				? new ShortCircuitResult(true, experimentSummary.AlwaysUseOption)
 				: new ShortCircuitResult(false, null);
 		}
 

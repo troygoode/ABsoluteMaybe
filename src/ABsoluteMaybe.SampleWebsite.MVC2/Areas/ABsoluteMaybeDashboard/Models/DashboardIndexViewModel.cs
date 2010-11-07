@@ -28,7 +28,7 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Models
 				public int Participants { get; set; }
 				public int Conversions { get; set; }
 				public double? ConversionRate { get; set; }
-				public bool IsFinalOption { get; set; }
+				public bool IsAlwaysUseOption { get; set; }
 			}
 
 			#endregion

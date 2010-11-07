@@ -44,7 +44,7 @@
 									<%: Html.AntiForgeryToken() %>
 									<input type="submit" value="End experiment, picking this." />
 								<% } %>
-							<% }else if(option.IsFinalOption){ %>
+							<% }else if(option.IsAlwaysUseOption){ %>
 							All users now see this option.
 							<% } %>
 						</td>
