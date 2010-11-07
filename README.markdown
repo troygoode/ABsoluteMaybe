@@ -8,7 +8,7 @@ First, let's go ahead and add the blinking button image to our homepage...
 
 *Views/Home/Index.aspx:*
 <pre>
-&lt;% if(ABsoluteMaybe.Test("huge_animated_register_button")){ %&gt;
+&lt;% if(<u>ABsoluteMaybe.Test("huge_animated_register_button")</u>){ %&gt;
 	&lt;a href="&lt;% =Url.Action("Register", "Account) %&gt;"&gt;&lt;img src="/Content/HuuuuugeAnimatedRegisterButton.gif" /&gt;&lt;/a&gt;
 &lt;% }else{ %&gt;
 	&lt;%: Html.ActionLink("Click here to register!", "Register", "Account") %&gt;
@@ -22,7 +22,7 @@ How does ABsoluteMaybe know when the user has actually click the button? For tha
 *Controllers/AccountController.cs:*
 <pre>
 public ActionResult Register(){
-	ABsoluteMaybe.Convert("huge_animated_register_button");
+	<u>ABsoluteMaybe.Convert("huge_animated_register_button");</u>
 	return View();
 }
 </pre>
