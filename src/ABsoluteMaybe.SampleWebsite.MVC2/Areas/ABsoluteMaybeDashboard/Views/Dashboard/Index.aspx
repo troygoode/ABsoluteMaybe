@@ -29,6 +29,13 @@
 					</tr>
 				<% } %>
 				</tbody>
+				<tfoot class="total">
+					<tr>
+						<td>Total</td>
+						<td><%: experiment.Experiment.Options.Sum(opt=> opt.Participants) %></td>
+						<td><%: experiment.Experiment.Options.Sum(opt=> opt.Conversions) %></td>
+					</tr>
+				</tfoot>
 			</table>
 			<p><%: experiment.Results %></p>
 		</li>

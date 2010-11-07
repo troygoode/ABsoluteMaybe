@@ -28,7 +28,7 @@ namespace ABsoluteMaybe.Statistics
 
 			if (option1.Participants == 0 || option2.Participants == 0)
 				throw new NotEnoughParticipantsException(
-					"Can't calculate the z score if either of the options lacks participants.");
+					"Can't calculate the z-score if either of the options lacks participants.");
 
 			var numerator = option1.ConversionRate - option2.ConversionRate;
 			var frac1 = option1.ConversionRate*(1 - option1.ConversionRate)/option1.Participants;
