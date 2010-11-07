@@ -1,34 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Experiments>
-  <Experiment Name="Homepage Message Casing" Started="2010-11-06T21:19:42.0458985Z" ConversionKeyword="Purchased Bumper Sticker" Ended="2010-11-07T01:55:39.3886719Z" AlwaysUseOption="Proper Case">
+  <Experiment Name="Homepage_Message_Casing" Started="2010-11-07T15:10:06.5559688Z" ConversionKeyword="Purchased Bumper Sticker">
     <PossibleOptionValues>
-      <Option><![CDATA[Proper Case]]></Option>
-      <Option><![CDATA[ALL CAPS, YO]]></Option>
+      <Option><![CDATA[ProperCase]]></Option>
+      <Option><![CDATA[ALL_CAPS]]></Option>
     </PossibleOptionValues>
     <Participants>
-      <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T21:19:46.7910157Z"><![CDATA[ALL CAPS, YO]]></Participant>
-      <Participant Id="65905F18FB584A4362B7B426ACD10345" HasConverted="true" DateConverted="2010-11-07T01:20:08.7089844Z"><![CDATA[ALL CAPS, YO]]></Participant>
+      <Participant Id="788E6F27DA1BC4136552AAB592239CFB"><![CDATA[ProperCase]]></Participant>
     </Participants>
   </Experiment>
-  <Experiment Name="Begging Totally Works" Started="2010-11-06T21:19:42.4326172Z">
+  <Experiment Name="Begging_Totally_Works" Started="2010-11-07T15:10:07.5833125Z">
     <PossibleOptionValues>
       <Option><![CDATA[False]]></Option>
       <Option><![CDATA[True]]></Option>
     </PossibleOptionValues>
     <Participants>
-      <Participant Id="127.0.0.1"><![CDATA[True]]></Participant>
-      <Participant Id="65905F18FB584A4362B7B426ACD10345"><![CDATA[False]]></Participant>
-      <Participant Id="788E6F27DA1BC4136552AAB592239CFB"><![CDATA[True]]></Participant>
-    </Participants>
-  </Experiment>
-  <Experiment Name="Free Shipping" Started="2010-11-06T21:19:46.053711Z" ConversionKeyword="Purchased Bumper Sticker">
-    <PossibleOptionValues>
-      <Option><![CDATA[0]]></Option>
-      <Option><![CDATA[9.99]]></Option>
-    </PossibleOptionValues>
-    <Participants>
-      <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T21:19:46.7910157Z"><![CDATA[9.99]]></Participant>
-      <Participant Id="65905F18FB584A4362B7B426ACD10345" HasConverted="true" DateConverted="2010-11-07T01:20:08.7089844Z"><![CDATA[0]]></Participant>
+      <Participant Id="788E6F27DA1BC4136552AAB592239CFB"><![CDATA[False]]></Participant>
     </Participants>
   </Experiment>
 </Experiments>

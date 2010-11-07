@@ -9,9 +9,9 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Controllers
 		{
 			var msg =
 				"Welcome to the ABsoluteMaybe Sample Website! Some people see this in proper case, some see it in all caps.";
-			if (ABsoluteMaybe.Test("Homepage Message Casing",
+			if (ABsoluteMaybe.Test("Homepage_Message_Casing",
 			                       "Purchased Bumper Sticker",
-			                       new[] {"Proper Case", "ALL CAPS, YO"}) == "ALL CAPS, YO")
+			                       new[] {"ProperCase", "ALL_CAPS"}) == "ALL_CAPS")
 				msg = msg.ToUpperInvariant();
 
 			ViewData["Message"] = msg;
@@ -21,13 +21,13 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Controllers
 
 		public RedirectToRouteResult BeggingTotallyWorks()
 		{
-			ABsoluteMaybe.Convert("Begging Totally Works");
+			ABsoluteMaybe.Convert("Begging_Totally_Works");
 			return RedirectToAction("ShoppingCart");
 		}
 
 		public ViewResult ShoppingCart()
 		{
-			var shippingCost = ABsoluteMaybe.Test("Free Shipping", "Purchased Bumper Sticker", new[] {0m, 9.99m});
+			var shippingCost = ABsoluteMaybe.Test("Free_Shipping", "Purchased Bumper Sticker", new[] {0m, 9.99m});
 			return View(new ShoppingCartViewModel
 			            	{
 								BumperStickerCost = 59.99m,
