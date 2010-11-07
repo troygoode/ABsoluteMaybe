@@ -7,6 +7,7 @@
     </PossibleOptionValues>
     <Participants>
       <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T21:19:46.7910157Z"><![CDATA[ALL CAPS, YO]]></Participant>
+      <Participant Id="65905F18FB584A4362B7B426ACD10345" HasConverted="true" DateConverted="2010-11-07T01:20:08.7089844Z"><![CDATA[ALL CAPS, YO]]></Participant>
     </Participants>
   </Experiment>
   <Experiment Name="Begging Totally Works" Started="2010-11-06T21:19:42.4326172Z">
@@ -16,6 +17,7 @@
     </PossibleOptionValues>
     <Participants>
       <Participant Id="127.0.0.1"><![CDATA[True]]></Participant>
+      <Participant Id="65905F18FB584A4362B7B426ACD10345"><![CDATA[False]]></Participant>
     </Participants>
   </Experiment>
   <Experiment Name="Free Shipping" Started="2010-11-06T21:19:46.053711Z" ConversionKeyword="Purchased Bumper Sticker">
@@ -25,6 +27,7 @@
     </PossibleOptionValues>
     <Participants>
       <Participant Id="127.0.0.1" HasConverted="true" DateConverted="2010-11-06T21:19:46.7910157Z"><![CDATA[9.99]]></Participant>
+      <Participant Id="65905F18FB584A4362B7B426ACD10345" HasConverted="true" DateConverted="2010-11-07T01:20:08.7089844Z"><![CDATA[0]]></Participant>
     </Participants>
   </Experiment>
 </Experiments>

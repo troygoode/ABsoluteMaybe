@@ -19,8 +19,8 @@ namespace ABsoluteMaybe.Statistics
 
 			var insufficientSampleSize = _experiment.Options.Any(o => o.Participants < 10);
 
-			var best = _experiment.Options.OrderByDescending(o => o.ConversionRate).First();
-			var worst = _experiment.Options.OrderByDescending(o => o.ConversionRate).Last();
+			var best = _experiment.Options.OrderByDescending(o => o.ConversionRate).ThenByDescending(o => o.Conversions).First();
+			var worst = _experiment.Options.OrderByDescending(o => o.ConversionRate).ThenByDescending(o => o.Conversions).Last();
 
 			return new ABsoluteMaybeStatisticsResult(insufficientSampleSize, 1 - pvalue, best, worst);
 		}
