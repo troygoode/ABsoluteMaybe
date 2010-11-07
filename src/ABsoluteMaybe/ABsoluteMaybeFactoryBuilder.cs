@@ -32,6 +32,12 @@ namespace ABsoluteMaybe
 				.SetExperimentRepository(()=> new XmlExperimentRepository(pathToXmlStorageFile));
 		}
 
+		public static ABsoluteMaybeFactoryBuilder WithCustomRepository(Func<IExperimentRepository> experimentRepositoryFactory)
+		{
+			return new ABsoluteMaybeFactoryBuilder()
+				.SetExperimentRepository(experimentRepositoryFactory);
+		}
+
 		private ABsoluteMaybeFactoryBuilder()
 		{
 		}
