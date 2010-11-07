@@ -59,8 +59,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\IOptionSerializer.cs" />
     <Compile Include="Serialization\ToStringOptionSerializer.cs" />
+    <Compile Include="ShortCircuiting\CookieShortCircuiter.cs" />
     <Compile Include="ShortCircuiting\EndedExperimentShortCircuiter.cs" />
     <Compile Include="ShortCircuiting\IShortCircuiter.cs" />
+    <Compile Include="ShortCircuiting\QueryStringShortCircuiter.cs" />
     <Compile Include="ShortCircuiting\ShortCircuitResult.cs" />
     <Compile Include="Statistics\ABingoStyleFormatter.cs" />
     <Compile Include="Statistics\ABsoluteMaybeStatistics.cs" />

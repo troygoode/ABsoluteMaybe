@@ -47,7 +47,9 @@ namespace ABsoluteMaybe
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
 			var experiment = _experimentRepository.GetOrCreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
 
-			var shortCircuit = _shortCircuiters.Select(sc => sc.ShortCircuit(experiment, userId)).FirstOrDefault(scr=> scr.ShouldShortCircuitRequest);
+			var shortCircuit = _shortCircuiters
+				.Select(sc => sc.ShortCircuit(experiment, userId))
+				.FirstOrDefault(scr=> scr.ShouldShortCircuitRequest);
 			if(shortCircuit != null)
 				return options.Single(option => _optionSerializer.Serialize(option) == shortCircuit.ShortCircuitTo);
 
