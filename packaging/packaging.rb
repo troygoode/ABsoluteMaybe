@@ -7,14 +7,23 @@ def copy_files(from, to, filename, extensions)
 end
 
 task :prepare_package_core => :release do
-  output_directory_core = './packaging/EngageNet/lib/40/'
+  output_directory_core = './packaging/ABsoluteMaybe/lib/40/'
   FileUtils.mkdir_p output_directory_core
 
-  copy_files './src/EngageNet/bin/Release/', output_directory_core, 'EngageNet', ['dll', 'pdb', 'xml']
+  copy_files './src/ABsoluteMaybe/bin/Release/', output_directory_core, 'ABsoluteMaybe', ['dll', 'pdb', 'xml']
+end
+
+exec :package_core => :prepare_package_core do |cmd|
+  cmd.path_to_command = 'packaging/NuPack-CTP2.exe'
+  cmd.parameters [
+  	'pack',
+    'packaging\\ABsoluteMaybe\\ABsoluteMaybe.nuspec',
+    '-o packaging\\ABsoluteMaybe'
+  ]
 end
 
 task :prepare_package_mvc => :release do
-  output_directory_mvc_lib = './packaging/EngageNet.Mvc/lib/40/'
+  output_directory_mvc_lib = './packaging/ABsoluteMaybe.Mvc/lib/40/'
   output_directory_mvc_content_controllers = './packaging/EngageNet.Mvc/content/Controllers/'
   output_directory_mvc_content_views = './packaging/EngageNet.Mvc/content/Views/Engage/'
   FileUtils.mkdir_p output_directory_mvc_lib
@@ -34,22 +43,12 @@ task :prepare_package_mvc => :release do
   end
 end
 
-exec :package_core => :prepare_package_core do |cmd|
-  cmd.log_level = :verbose
-  cmd.path_to_command = 'packaging/NuPack-CTP2.exe'
-  cmd.parameters [
-  	'pack',
-    'packaging\\EngageNet\\EngageNet.nuspec',
-    '-o packaging\\EngageNet'
-  ]
-end
-
 exec :package_mvc => :prepare_package_mvc do |cmd|
   cmd.path_to_command = 'packaging/NuPack-CTP2.exe'
   cmd.parameters [
   	'pack',
-    'packaging\\EngageNet.Mvc\\EngageNet.Mvc.nuspec',
-    '-o packaging\\EngageNet.Mvc'
+    'packaging\\ABsoluteMaybe.Mvc\\ABsoluteMaybe.Mvc.nuspec',
+    '-o packaging\\ABsoluteMaybe.Mvc'
   ]
 end
 
@@ -57,10 +56,10 @@ task :package => [:package_core, :package_mvc] do
 end
 
 task :clean_packages do
-	FileUtils.rm_r './packaging/EngageNet/lib/' unless not File.directory? './packaging/EngageNet/lib/'
-	FileUtils.rm Dir.glob './packaging/EngageNet/*.nupkg'
+	FileUtils.rm_r './packaging/ABsoluteMaybe/lib/' unless not File.directory? './packaging/ABsoluteMaybe/lib/'
+	FileUtils.rm Dir.glob './packaging/ABsoluteMaybe/*.nupkg'
 
-	FileUtils.rm_r './packaging/EngageNet.Mvc/lib/' unless not File.directory? './packaging/EngageNet.Mvc/lib/'
-	FileUtils.rm_r './packaging/EngageNet.Mvc/content/' unless not File.directory? './packaging/EngageNet.Mvc/content/'
-	FileUtils.rm Dir.glob './packaging/EngageNet.Mvc/*.nupkg'
+	FileUtils.rm_r './packaging/ABsoluteMaybe.Mvc/lib/' unless not File.directory? './packaging/ABsoluteMaybe.Mvc/lib/'
+	FileUtils.rm_r './packaging/ABsoluteMaybe.Mvc/content/' unless not File.directory? './packaging/ABsoluteMaybe.Mvc/content/'
+	FileUtils.rm Dir.glob './packaging/ABsoluteMaybe.Mvc/*.nupkg'
 end
