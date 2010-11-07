@@ -33,6 +33,9 @@ namespace ABsoluteMaybe.Persistence
 				               	exp.Attribute("ConversionKeyword") == null
 				               		? exp.Attribute("Name").Value
 				               		: exp.Attribute("ConversionKeyword").Value,
+								exp.Attribute("AlwaysUseOption") == null
+									? null
+									: exp.Attribute("AlwaysUseOption").Value,
 				               	DateTime.Parse(exp.Attribute("Started").Value),
 				               	exp.Attribute("Ended") == null
 				               		? (DateTime?) null
@@ -135,6 +138,19 @@ namespace ABsoluteMaybe.Persistence
 				participant.Add(new XAttribute("HasConverted", true));
 				participant.Add(new XAttribute("DateConverted", utcNow));
 			}
+			Save(xml);
+		}
+
+		public void EndExperiment(string experimentName, string finalOption)
+		{
+			var xml = Load();
+
+			var experiment = xml.Root.Elements("Experiment").Single(exp => exp.Attribute("Name").Value == experimentName);
+			if (experiment.Attribute("Ended") != null)
+				return;
+
+			experiment.Add(new XAttribute("Ended", UtcNow));
+			experiment.Add(new XAttribute("AlwaysUseOption", finalOption));
 			Save(xml);
 		}
 

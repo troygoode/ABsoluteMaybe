@@ -11,7 +11,8 @@ namespace ABsoluteMaybe.Domain
 
 		public Experiment(string name,
 		                  string conversionKeyword,
-		                  DateTime dateCreated,
+		                  string finalOption,
+		                  DateTime dateStarted,
 		                  DateTime? dateEnded,
 		                  IEnumerable<ParticipationRecord> participants,
 		                  IEnumerable<string> allPossibleOptionValues)
@@ -19,14 +20,16 @@ namespace ABsoluteMaybe.Domain
 			_allPossibleOptionValues = allPossibleOptionValues;
 			Name = name;
 			ConversionKeyword = conversionKeyword;
-			DateCreated = dateCreated;
+			FinalOption = finalOption;
+			DateStarted = dateStarted;
 			DateEnded = dateEnded;
 			Participants = participants;
 		}
 
 		public string Name { get; private set; }
 		public string ConversionKeyword { get; private set; }
-		public DateTime DateCreated { get; private set; }
+		public string FinalOption { get; private set; }
+		public DateTime DateStarted { get; private set; }
 		public DateTime? DateEnded { get; private set; }
 		public IEnumerable<ParticipationRecord> Participants { get; private set; }
 

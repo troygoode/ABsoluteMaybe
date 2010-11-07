@@ -6,6 +6,7 @@ using ABsoluteMaybe.Statistics;
 
 namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controllers
 {
+	//[Authorize(Roles = "ABsoluteMaybe Test Administrator")]
 	public class DashboardController : Controller
 	{
 		private readonly IExperimentRepository _experimentRepository;
@@ -21,7 +22,6 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 			_experimentRepository = experimentRepository;
 		}
 
-		// GET: /ABsoluteMaybeDashboard/Dashboard/
 		public ViewResult Index()
 		{
 			var experiments = _experimentRepository
@@ -30,12 +30,16 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 								{
 									Name = exp.Name,
 									Results = new ABingoStyleFormatter(new ABsoluteMaybeStatistics(exp)).ToString(),
+									Started = exp.DateStarted,
+									Ended = exp.DateEnded,
+									IsEnded = exp.DateEnded != null,
 									TotalParticipants = exp.Options.Sum(o => o.Participants),
 									TotalConversions = exp.Options.Sum(o => o.Conversions),
 									Options = exp.Options.Select(o =>
 										new DashboardIndexViewModel.ExperimentViewModel.OptionViewModel
 											{
 												Name = o.Name,
+												IsFinalOption = o.Name == exp.FinalOption,
 												Participants = o.Participants,
 												Conversions = o.Conversions,
 												ConversionRate = o.Participants > 0
@@ -48,6 +52,14 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 			            	{
 			            		Experiments = experiments
 			            	});
+		}
+
+		[HttpPost, ValidateAntiForgeryToken]
+		public RedirectToRouteResult EndExperiment(string experiment, string option)
+		{
+			_experimentRepository.EndExperiment(experiment, option);
+			TempData["Flash"] = "Experiment marked as ended.  All users will now see the chosen option.";
+			return RedirectToAction("Index");
 		}
 	}
 }

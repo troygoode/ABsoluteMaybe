@@ -17,5 +17,7 @@ namespace ABsoluteMaybe.Persistence
 
 		void Convert(string conversionKeyword,
 		             string userId);
+
+		void EndExperiment(string experimentName, string finalOption);
 	}
 }

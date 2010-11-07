@@ -430,5 +430,73 @@ namespace AbsoluteMaybe.Tests.Persistence
 			userIdAtt.ShouldNotBeNull();
 			userIdAtt.Value.ShouldEqual(userId);
 		}
+
+		[Test]
+		public void EndExperimentMarksExperimentsEndDate()
+		{
+			//arrange
+			const string experimentName = "Troy's Experiment";
+			const string finalOption = "Bar";
+			_repo.Reset();
+			_repo.CreateExperiment(experimentName, new[]{ "Foo", "Bar" });
+			var timestamp = new DateTime(2008, 5, 24);
+			_repo.UtcNowFactory = () => timestamp;
+
+			//act
+			_repo.EndExperiment(experimentName, finalOption);
+
+			//assert
+			var xml = XDocument.Parse(_repo.SavedXml);
+			var exp = xml.Root.Elements("Experiment").Single();
+
+			var endDateAtt = exp.Attribute("Ended");
+			endDateAtt.ShouldNotBeNull();
+			DateTime.Parse(endDateAtt.Value).ShouldEqual(timestamp);
+		}
+
+		[Test]
+		public void EndExperimentShouldNotOverwriteExistingEndDate()
+		{
+			//arrange
+			const string experimentName = "Troy's Experiment";
+			const string finalOption = "Bar";
+			_repo.Reset();
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+			var timestamp1 = new DateTime(2008, 5, 24);
+			_repo.UtcNowFactory = () => timestamp1;
+			_repo.EndExperiment(experimentName, finalOption);
+
+			//act
+			var timestamp2 = new DateTime(2008, 5, 25);
+			_repo.UtcNowFactory = () => timestamp2;
+			_repo.EndExperiment(experimentName, finalOption);
+
+			//assert
+			var xml = XDocument.Parse(_repo.SavedXml);
+			var exp = xml.Root.Elements("Experiment").Single();
+
+			DateTime.Parse(exp.Attribute("Ended").Value).ShouldEqual(timestamp1);
+		}
+
+		[Test]
+		public void EndExperimentMarksFinalOption()
+		{
+			//arrange
+			const string experimentName = "Troy's Experiment";
+			const string finalOption = "Bar";
+			_repo.Reset();
+			_repo.CreateExperiment(experimentName, new[] { "Foo", "Bar" });
+
+			//act
+			_repo.EndExperiment(experimentName, finalOption);
+
+			//assert
+			var xml = XDocument.Parse(_repo.SavedXml);
+			var exp = xml.Root.Elements("Experiment").Single();
+
+			var finalOptionAtt = exp.Attribute("AlwaysUseOption");
+			finalOptionAtt.ShouldNotBeNull();
+			finalOptionAtt.Value.ShouldEqual(finalOption);
+		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Experiments>
-  <Experiment Name="Homepage Message Casing" Started="2010-11-06T21:19:42.0458985Z" ConversionKeyword="Purchased Bumper Sticker">
+  <Experiment Name="Homepage Message Casing" Started="2010-11-06T21:19:42.0458985Z" ConversionKeyword="Purchased Bumper Sticker" Ended="2010-11-07T01:55:39.3886719Z" AlwaysUseOption="Proper Case">
     <PossibleOptionValues>
       <Option><![CDATA[Proper Case]]></Option>
       <Option><![CDATA[ALL CAPS, YO]]></Option>
