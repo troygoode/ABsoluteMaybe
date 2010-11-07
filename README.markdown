@@ -9,9 +9,9 @@ First, let's go ahead and add the blinking button image to our homepage...
 *Views/Home/Index.aspx:*
 <pre>
 &lt;% if(ABsoluteMaybe.Test("huge_animated_register_button")){ %&gt;
-	%lt;a href="&lt;% =Url.Action("Register", "Account) %&gt;"&gt;&lt;img src="/Content/HuuuuugeAnimatedRegisterButton.gif" /&gt;&lt;/a&gt;
+	&lt;a href="&lt;% =Url.Action("Register", "Account) %&gt;"&gt;&lt;img src="/Content/HuuuuugeAnimatedRegisterButton.gif" /&gt;&lt;/a&gt;
 &lt;% }else{ %&gt;
-	&lt;: Html.ActionLink("Click here to register!", "Register", "Account") &gt;
+	&lt;%: Html.ActionLink("Click here to register!", "Register", "Account") %&gt;
 &lt;% } %&gt;
 </pre>
 
