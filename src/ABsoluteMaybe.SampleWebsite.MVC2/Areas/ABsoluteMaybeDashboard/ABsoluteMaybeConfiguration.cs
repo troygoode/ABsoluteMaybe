@@ -12,7 +12,7 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard
 		{
 			var pathToXmlFile = HttpContext.Current.Server.MapPath(StoragePath);
 
-			ABsoluteMaybe.ABsoluteMaybeFactory = ABsoluteMaybeFactoryBuilder
+			ABsoluteMaybe.ABsoluteMaybeFactory = ABsoluteMaybeBuilder
 				.StoreExperimentsUsing(() => new XmlExperimentCommands(pathToXmlFile))
 				.AddShortCircuiter(() => new QueryStringShortCircuiter())
 				.Build();
