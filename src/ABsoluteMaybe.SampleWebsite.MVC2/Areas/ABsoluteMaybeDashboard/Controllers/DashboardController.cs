@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using ABsoluteMaybe.Persistence;
+using ABsoluteMaybe.Persistence.Xml;
 using ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Models;
 using ABsoluteMaybe.Statistics;
 
@@ -9,22 +10,26 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 	//[Authorize(Roles = "ABsoluteMaybe Test Administrator")]
 	public class DashboardController : Controller
 	{
-		private readonly IExperimentRepository _experimentRepository;
+		private readonly IExperimentCommands _experimentCommands;
+		private readonly IExperimentQueries _experimentQueries;
 
 		public DashboardController()
 		{
 			var storagePath = System.Web.HttpContext.Current.Server.MapPath(ABsoluteMaybeConfiguration.StoragePath);
-			_experimentRepository = new XmlExperimentRepository(storagePath);
+			_experimentCommands = new XmlExperimentCommands(storagePath);
+			_experimentQueries = new XmlExperimentQueries(storagePath);
 		}
 
-		public DashboardController(IExperimentRepository experimentRepository)
+		public DashboardController(IExperimentCommands experimentCommands,
+		                           IExperimentQueries experimentQueries)
 		{
-			_experimentRepository = experimentRepository;
+			_experimentCommands = experimentCommands;
+			_experimentQueries = experimentQueries;
 		}
 
 		public ViewResult Index()
 		{
-			var experiments = _experimentRepository
+			var experiments = _experimentQueries
 				.FindAllExperiments()
 				.Select(exp => new DashboardIndexViewModel.ExperimentViewModel
 								{
@@ -57,7 +62,7 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard.Controll
 		[HttpPost, ValidateAntiForgeryToken]
 		public RedirectToRouteResult EndExperiment(string experiment, string option)
 		{
-			_experimentRepository.EndExperiment(experiment, option);
+			_experimentCommands.EndExperiment(experiment, option);
 			TempData["Flash"] = "Experiment marked as ended.  All users will now see the chosen option.";
 			return RedirectToAction("Index");
 		}

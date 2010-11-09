@@ -5,13 +5,13 @@ using System.Linq;
 using System.Xml.Linq;
 using ABsoluteMaybe.Domain;
 
-namespace ABsoluteMaybe.Persistence
+namespace ABsoluteMaybe.Persistence.Xml
 {
-	public class XmlExperimentRepository : IExperimentRepository
+	public class XmlExperimentCommands : IExperimentCommands
 	{
 		private readonly string _pathToXmlStorage;
 
-		public XmlExperimentRepository(string pathToXmlStorage)
+		public XmlExperimentCommands(string pathToXmlStorage)
 		{
 			_pathToXmlStorage = pathToXmlStorage;
 		}
@@ -23,50 +23,13 @@ namespace ABsoluteMaybe.Persistence
 
 		#region IExperimentRepository Members
 
-		public IQueryable<Experiment> FindAllExperiments()
-		{
-			var xml = Load();
-
-			return xml.Root.Elements("Experiment")
-				.Select(exp => new Experiment(
-				               	exp.Attribute("Name").Value,
-				               	exp.Attribute("ConversionKeyword") == null
-				               		? exp.Attribute("Name").Value
-				               		: exp.Attribute("ConversionKeyword").Value,
-								exp.Attribute("AlwaysUseOption") == null
-									? null
-									: exp.Attribute("AlwaysUseOption").Value,
-				               	DateTime.Parse(exp.Attribute("Started").Value),
-				               	exp.Attribute("Ended") == null
-				               		? (DateTime?) null
-				               		: DateTime.Parse(exp.Attribute("Ended").Value),
-				               	exp.Element("Participants") == null
-				               		? Enumerable.Empty<ParticipationRecord>()
-				               		: exp.Element("Participants")
-				               		  	.Elements("Participant")
-				               		  	.Select(p => new ParticipationRecord(
-				               		  	             	p.Attribute("Id").Value,
-				               		  	             	p.Value,
-				               		  	             	p.Attribute("HasConverted") == null
-				               		  	             		? false
-				               		  	             		: bool.Parse(p.Attribute("HasConverted").Value),
-				               		  	             	exp.Attribute("DateConverted") == null
-				               		  	             		? (DateTime?) null
-				               		  	             		: DateTime.Parse(
-				               		  	             			p.Attribute("DateConverted").Value)
-				               		  	             	)),
-								exp.Element("PossibleOptionValues")
-									.Elements("Option")
-									.Select(pov => pov.Value)
-				               	)).AsQueryable();
-		}
-
 		public ExperimentSummary GetOrCreateExperiment(string experimentName, IEnumerable<string> options)
 		{
 			return GetOrCreateExperiment(experimentName, experimentName, options);
 		}
 
-		public ExperimentSummary GetOrCreateExperiment(string experimentName, string conversionKeyword, IEnumerable<string> options)
+		public ExperimentSummary GetOrCreateExperiment(string experimentName, string conversionKeyword,
+		                                               IEnumerable<string> options)
 		{
 			var xml = Load();
 
@@ -82,11 +45,11 @@ namespace ABsoluteMaybe.Persistence
 					);
 
 			var exp = new XElement("Experiment",
-								   new XAttribute("Name", experimentName),
+			                       new XAttribute("Name", experimentName),
 			                       new XAttribute("Started", UtcNow),
-								   new XElement("PossibleOptionValues",
-									   options.Select(o=> new XElement("Option", new XCData(o)))
-									   )
+			                       new XElement("PossibleOptionValues",
+			                                    options.Select(o => new XElement("Option", new XCData(o)))
+			                       	)
 				);
 			if (experimentName != conversionKeyword)
 				exp.Add(new XAttribute("ConversionKeyword", conversionKeyword));
@@ -111,15 +74,15 @@ namespace ABsoluteMaybe.Persistence
 			var existingRecord = participants.Elements("Participant").SingleOrDefault(x => x.Attribute("Id").Value == userId);
 			if (existingRecord != null)
 				return new ParticipationRecord(
-				       	existingRecord.Attribute("Id").Value,
-				       	existingRecord.Value,
-				       	existingRecord.Attribute("HasConverted") == null
-				       		               	? false
-				       		               	: bool.Parse(existingRecord.Attribute("HasConverted").Value),
-				       	existingRecord.Attribute("DateConverted") == null
-				       		                	? (DateTime?) null
-				       		                	: DateTime.Parse(existingRecord.Attribute("DateConverted").Value)
-				       	);
+					existingRecord.Attribute("Id").Value,
+					existingRecord.Value,
+					existingRecord.Attribute("HasConverted") == null
+						? false
+						: bool.Parse(existingRecord.Attribute("HasConverted").Value),
+					existingRecord.Attribute("DateConverted") == null
+						? (DateTime?) null
+						: DateTime.Parse(existingRecord.Attribute("DateConverted").Value)
+					);
 
 			var assignedOption = chooseAnOptionForUser();
 			experiment.Element("Participants").Add(new XElement("Participant",

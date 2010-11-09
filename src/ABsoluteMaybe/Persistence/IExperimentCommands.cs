@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ABsoluteMaybe.Domain;
 
 namespace ABsoluteMaybe.Persistence
 {
-	public interface IExperimentRepository
+	public interface IExperimentCommands
 	{
-		IQueryable<Experiment> FindAllExperiments();
-
 		ExperimentSummary GetOrCreateExperiment(string experimentName, IEnumerable<string> options);
 		ExperimentSummary GetOrCreateExperiment(string experimentName, string conversionKeyword, IEnumerable<string> options);
 

@@ -50,7 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\ExperimentTests.cs" />
-    <Compile Include="Persistence\XmlExperimentRepositoryTests.cs" />
+    <Compile Include="Persistence\XmlCommandsStub.cs" />
+    <Compile Include="Persistence\XmlExperimentCommandsTests.cs" />
+    <Compile Include="Persistence\XmlExperimentQueriesTests.cs" />
+    <Compile Include="Persistence\XmlQueriesStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics\ABsoluteMaybeStatisticsTests.cs" />
   </ItemGroup>

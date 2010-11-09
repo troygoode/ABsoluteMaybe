@@ -54,8 +54,10 @@
     <Compile Include="Identification\IUserIdentification.cs" />
     <Compile Include="OptionChoosing\IOptionChooser.cs" />
     <Compile Include="OptionChoosing\RandomOptionChooser.cs" />
-    <Compile Include="Persistence\IExperimentRepository.cs" />
-    <Compile Include="Persistence\XmlExperimentRepository.cs" />
+    <Compile Include="Persistence\IExperimentCommands.cs" />
+    <Compile Include="Persistence\IExperimentQueries.cs" />
+    <Compile Include="Persistence\Xml\XmlExperimentCommands.cs" />
+    <Compile Include="Persistence\Xml\XmlExperimentQueries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\IOptionSerializer.cs" />
     <Compile Include="Serialization\ToStringOptionSerializer.cs" />

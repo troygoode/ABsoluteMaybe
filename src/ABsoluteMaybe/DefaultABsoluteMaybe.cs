@@ -11,14 +11,14 @@ namespace ABsoluteMaybe
 {
 	public class DefaultABsoluteMaybe : IABsoluteMaybe
 	{
-		private readonly IExperimentRepository _experimentRepository;
+		private readonly IExperimentCommands _experimentCommands;
 		private readonly IOptionChooser _optionChooser;
 		private readonly IOptionSerializer _optionSerializer;
 		private readonly IEnumerable<IShortCircuiter> _shortCircuiters;
 		private readonly IEnumerable<IUserFilter> _userFilters;
 		private readonly IUserIdentification _userIdentification;
 
-		public DefaultABsoluteMaybe(IExperimentRepository experimentRepository,
+		public DefaultABsoluteMaybe(IExperimentCommands experimentCommands,
 		                            IOptionChooser optionChooser,
 		                            IOptionSerializer optionSerializer,
 		                            IEnumerable<IShortCircuiter> shortCircuiters,
@@ -26,7 +26,7 @@ namespace ABsoluteMaybe
 		                            IUserIdentification userIdentification
 			)
 		{
-			_experimentRepository = experimentRepository;
+			_experimentCommands = experimentCommands;
 			_optionChooser = optionChooser;
 			_optionSerializer = optionSerializer;
 			_shortCircuiters = shortCircuiters;
@@ -45,7 +45,7 @@ namespace ABsoluteMaybe
 				return options.First();
 
 			var optionsAsStrings = options.Select(_optionSerializer.Serialize).ToArray();
-			var experiment = _experimentRepository.GetOrCreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
+			var experiment = _experimentCommands.GetOrCreateExperiment(experimentName, conversionKeyword, optionsAsStrings);
 
 			var shortCircuit = _shortCircuiters
 				.AsQueryable()
@@ -54,7 +54,7 @@ namespace ABsoluteMaybe
 			if (shortCircuit != null && optionsAsStrings.Contains(shortCircuit.ShortCircuitTo))
 				return options.SingleOrDefault(option => _optionSerializer.Serialize(option) == shortCircuit.ShortCircuitTo);
 
-			var participationRecord = _experimentRepository.GetOrCreateParticipationRecord(experimentName,
+			var participationRecord = _experimentCommands.GetOrCreateParticipationRecord(experimentName,
 			                                                                               () =>
 			                                                                               _optionChooser.Choose(optionsAsStrings),
 			                                                                               userId);
@@ -68,7 +68,7 @@ namespace ABsoluteMaybe
 			if (_userFilters.Any(filter => filter.FilterOut(userId)))
 				return;
 
-			_experimentRepository.Convert(conversionKeyword, userId);
+			_experimentCommands.Convert(conversionKeyword, userId);
 		}
 
 		#endregion

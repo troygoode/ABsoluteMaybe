@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using ABsoluteMaybe.Persistence.Xml;
 using ABsoluteMaybe.ShortCircuiting;
 
 namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard
@@ -12,7 +13,7 @@ namespace ABsoluteMaybe.SampleWebsite.MVC2.Areas.ABsoluteMaybeDashboard
 			var pathToXmlFile = HttpContext.Current.Server.MapPath(StoragePath);
 
 			ABsoluteMaybe.ABsoluteMaybeFactory = ABsoluteMaybeFactoryBuilder
-				.WithXmlRepository(pathToXmlFile)
+				.StoreExperimentsUsing(() => new XmlExperimentCommands(pathToXmlFile))
 				.AddShortCircuiter(() => new QueryStringShortCircuiter())
 				.Build();
 		}
